@@ -13,7 +13,6 @@ class StoreFilter(django_filters.FilterSet):
             'name':['icontains'], 
             'address_store':['icontains'],
             'city': ['exact'],
-            'admen':['exact'],
             }
         #exclude = ['imageDev','img_dev_full_1','img_dev_full_2']
         filter_overrides = {
