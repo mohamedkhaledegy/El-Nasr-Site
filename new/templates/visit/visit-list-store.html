@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+
+<section class="my-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-4 text-center">
+            <h4>
+                <B>اسم الفرع : </B> {{store.name}}
+
+            </h4>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        {% for visit in visits %}
+        <div class="col-10">
+            <div class="card-header">
+                <div class="card-title">
+                    <h5>{{visit.type_of}}</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <p> Date : {{visit.date_visit}}</p>
+                <p>Content {{visit.content}}</p>
+                <p>{{visit.describe_proplem}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<br>
+<div class="container">
+
+</div>
+<form method="post">
+
+    {{formfix.short_desc.label}} {{formfix.short_desc.fields}}
+
+    <button class="btn btn-light" type="submit">Order</button>
+</form>
+{% endblock content %}

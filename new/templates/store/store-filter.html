@@ -1,0 +1,21 @@
+{% load bootstrap5 %}
+<div class="container-fluid bg-transparent banner mb-5">
+    <div class="container">
+        <div class="row gx-0">
+
+            <div dir="rtl" class="col-lg-12 wow zoomIn" data-wow-delay="0.3s">
+                <div class="bg-dark d-flex flex-column p-5" style="height: 500px;">
+                    <h3 class="text-white text-start mb-3">Filter Search</h3>
+                    <small>store {{count_stores}}</small>
+                    <form class="form-control" action="" method="GET" ى="novalidate">
+                        {% bootstrap_form stores_filter.form Layout="inline-block" %} {% buttons %}
+                        <button type="submit" class="btn btn-info">
+                            Filter
+                        </button> {% endbuttons %}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="container-fluid banner mb-5">
+    <div class="container">
+        <div class="row gx-0">
+            <div class="col-lg-4 wow zoomIn" data-wow-delay="0.1s">
+                <div class="bg-primary d-flex flex-column justify-content-center p-5" style="height: 300px;">
+                    <h3 class="text-white mb-3">اختيار الفرع</h3>
+
+                    <div class="d-flex justify-content-center text-white mb-3">
+                        <select class="form-select bg-light border-0 mb-3" style="height: 40px;">
+                            <option >اختار الفرع</option>
+                            {% for select in stores %}
+                            <option value="{{select}}">{{select}}  <b>-</b>  {{select.city}}</option>
+                            {% endfor %}
+                            la
+                        </select>
+                    </div>
+                    <a class="btn btn-light" href="">Appointment</a>
+                </div>
+            </div>
+            <div class="col-lg-4 wow zoomIn" data-wow-delay="0.3s">
+                <div class="bg-dark d-flex flex-column p-5" style="height: 300px;">
+                    <h3 class="text-white mb-3">Search A Store</h3>
+                    <div class="date mb-3" id="date" data-target-input="nearest">
+                        <input type="text" class="form-control bg-light border-0 datetimepicker-input" placeholder="Appointment Date" data-target="#date" data-toggle="datetimepicker" style="height: 40px;">
+                    </div>
+                    <select class="form-select bg-light border-0 mb-3" style="height: 40px;">
+                        <option selected>اختار الفرع</option>
+                        <option value="1">فرع شبرا</option>
+                        <option value="2">فرع الساحل</option>
+                        <option value="3">فرع غمرة</option>
+                    </select>
+                    <a class="btn btn-light" href="">بحث الفروع</a>
+                </div>
+            </div>
+            <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
+                <div class="bg-secondary d-flex flex-column p-5" style="height: 300px;">
+                    <h3 class="text-white mb-3">Make Appointment</h3>
+                    <p class="text-white">Ipsum erat ipsum dolor clita rebum no rebum dolores labore, ipsum magna at eos et eos amet.</p>
+                    <h2 class="text-white mb-0">+012 345 6789</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

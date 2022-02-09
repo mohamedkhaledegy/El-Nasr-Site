@@ -1,0 +1,114 @@
+{% load static %}
+<section class="head">
+    <div class="container-fluid bg-light ps-5 pe-0 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center">
+                    <small class="py-2"><i class="far fa-clock text-primary me-2"></i>Opening Hours: Sat - Thu : 10:00 am - 11.00 pm, Friday Closed </small>
+                </div>
+            </div>
+            <div class="col-md-6 text-center text-lg-end">
+                <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
+                    <div class="me-3 pe-3 border-end py-2">
+                        <p class="m-0"><i class="fa fa-envelope-open me-2"></i>ElNasrCGS@Ouutlook.com.com</p>
+                    </div>
+                    <div class="py-2">
+                        <p class="m-0"><i class="fa fa-phone-alt me-2"></i>+012 345 6789</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav dir="rtl" class="justify-content-between navbar rtl navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+        <a href="{% url 'home' %}" class="navbar-brand p-0">
+            <h1 class="m-0 text-primary"> <img src="{% static 'img/logo-elnasr.jpg' %}" alt=""> </i>النـصـر</h1>
+        </a>
+        <hr>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="{% url 'home' %}" class="nav-item nav-link active">الرئيسية</a> {% if user.is_authenticated %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">فروع أمان</a>
+                    <div class="text-end dropdown-menu m-0">
+                        <a href="{% url 'stores' %}" class="dropdown-item">
+                            كل الفروع
+                        </a> {% for str in stores %}
+                        <div class="card">
+                            <div class="card-header">
+                                <a href="{% url 'store_details' str.slug %}" class="dropdown-item">
+                                    <small class="btn-outline-primary">فرع  : {{str.name}}</small>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="elsatr1">
+                                    <i class="bi bi-whatsapp"></i> {% if str.location_store %}
+                                    <a href="https://api.whatsapp.com/send?text=فرع {{str.name}} العنوان : {{str.location_store}}" class="badge-outline-success mx-1"><i class="bi-geo-alt-fill"></i></a> {% endif %}
+                                    <a href="https://api.whatsapp.com/send?text=ادمين فرع {{str.name}}  استاذ {{str.user_admin}}  رقم التليفون  {{str.user_admin}}" class="badge-outline-success"><i class="bi bi-person-fill"></i></a>
+                                </div>
+                                <div class="elsatr2">
+                                    <i class="bi bi-brush"></i>
+                                    <a href="" class="badge-outline-success">
+                                        <i class="bi bi-lightning-charge-fill"></a>
+
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="dropdown-divider"></a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class=" nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">خدمات</a>
+                    <div class="text-end dropdown-menu m-0">
+                        <a href="{% url 'new_visit' %}" class="dropdown-item">طلب صيانة اضافية</a>
+                        <a href="{% url 'new_visit' %}" class="dropdown-item">طلب صيانة طارئة</a>
+                        <a href="#" class="dropdown-item">استعلام عن موعد زيارة فرع</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">الزيارات</a>
+                    <div class="text-end dropdown-menu m-0">
+                        <a href="#" class="dropdown-item">جميع الزيارات</a>
+                        <a href="#" class="dropdown-item">زيارات الشهر</a>
+                        <a href="#" class="dropdown-item">زيارات فرع</a>
+                    </div>
+                </div>
+                <a href="{% url 'visit_list' %}" class="nav-item nav-link">أعطال الفروع</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">أعمال أخرى</a>
+                    <div class="text-end dropdown-menu m-0">
+                        <a href="#" class="dropdown-item">توريدات</a>
+                        <a href="#" class="dropdown-item">نقل</a>
+                        <a href="#" class="dropdown-item">تركيبات</a>
+                        <a href="#" class="dropdown-item">تصميم وتصنيع</a>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
+            <a href="{% url 'new_visit' %}" class="btn btn-primary py-2 px-4 ms-3">طلب خدمة طوارئ</a> {% else %}
+        </div>
+        </div>
+        {% endif %}
+    </nav>
+    <div class="container-fluid mt-2">
+        <div class="row gx-0">
+            <div class="col-md-12 text-center mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                <button type="button" class="btn btn-outline-light text-info"><b>{{user}}</b> مرحبا  </button>
+                <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a>
+                <hr> {% else %} {% if request.path != "/accounts/login/" %}
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <a href="{% url 'login' %}" class="btn btn-primary">يرجى تسجل الدخول أولا </a>
+                    </div>
+                </div>
+                {% endif %}{% endif %}
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,130 @@
+{% extends "base.html" %} {% block content %} {% load tz %}
+<section class="my-5">
+    <div class="container">
+        <div class="main-body">
+
+            <!-- Breadcrumb -->
+            <!-- /Breadcrumb -->
+
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{profile.user}}</h4>
+                                    <p class="text-secondary mb-1">{{profile.first_name}} {{profile.last_name}}</p>
+                                    <p class="text-muted font-size-sm">{{profile.pos_in_store}}</p>
+                                    <a href="https://api.whatsapp.com/send?phone=2{{profile.phone_number}}&text= " class="btn btn-outline-success">واتساب</a>
+                                    <a href="#" class="btn btn-outline-primary">اتصال</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                                <a href="#">
+                                    <a href="{% url 'stores' %}">
+                                        <h6 class="btn btn-outline-light text-dark"> جميع الفروع</h6>
+                                    </a>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-9 text-secondary">
+                                    {{profile.first_name}} {{profile.last_name}}
+                                </div>
+                                <div class="col-sm-3 text-end">
+                                    <h6 class="mb-0">الاسم كاملا</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-9 text-secondary">
+                                    {{profile.mailo}}
+                                </div>
+                                <div class="col-sm-3 text-end">
+                                    <h6 class="mb-0">الايميل</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-9 text-secondary">
+                                    {{profile.phone_number}}
+                                </div>
+                                <div class="col-sm-3 text-end">
+                                    <h6 class="mb-0">رقم التليفون - الواتساب</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-9 text-secondary">
+                                    {{profile.phone_number2}}
+                                </div>
+                                <div class="col-sm-3 text-end">
+                                    <h6 class="mb-0">رقم التليفون</h6>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-9 text-secondary">
+                                    {{profile.area}}
+                                </div>
+                                <div class="col-sm-3 text-end">
+                                    <h6 class="mb-0">المنقطة</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gutters-sm">
+                        <div class="col-12">
+                            <div class="card-header">
+                                <p class="w-100 my-1 p-2 rounded-pill bg-primary text-light text-center "><b>ادارة الصيانة</b></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header text-center">
+                                    <h2 class="btn-outline-info rounded ">الفروع</h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group text-end" style="max-height: 200px; overflow-y: scroll;">
+                                        {% for stor in stores_user %}
+                                        <a href="{% url 'store_details' slug=stor.slug %}" class="list-group-item list-group-item-action">
+                                            {{stor.name}}
+                                        </a> {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header text-center">
+                                    <h2 class="btn-outline-info rounded ">الزيارات</h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group text-end" style="max-height: 200px; overflow-y: scroll;">
+                                        {% for visit in visits_admin %}
+                                        <a href="{% url 'visit_detail' visit.id %}" class="list-group-item list-group-item-action"> {{visit}}</a> {% endfor %}
+                                        <a href="#" class="list-group-item list-group-item-action">العجمى  بتاريخ -    13 شهر فبراير</a>
+                                        <a href="#" class="list-group-item list-group-item-action">الورديان  بتاريخ -    13 شهر فبراير</a>
+                                        <a href="#" class="list-group-item list-group-item-action">السيوف  بتاريخ -     14 شهر فبراير</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}
