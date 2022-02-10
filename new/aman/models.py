@@ -1,10 +1,3 @@
-
-from distutils.command.upload import upload
-from logging import PlaceHolder
-from operator import mod
-from pydoc import describe
-from re import T
-from tkinter import N
 from django.db import models
 from django.contrib.auth import login ,logout , authenticate
 from django.contrib.auth.models import User
@@ -12,13 +5,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
-
 import aman
 
 app_name = 'aman'
-
 # Create your models here.
-
 class Profile(models.Model):
     pos_site = (
         ('Admin','Admin' ),
@@ -60,7 +50,7 @@ class Store(models.Model):
     name = models.CharField( max_length=200,verbose_name=("اسم الفرع"),unique=True)
     image_store = models.ImageField(upload_to="Stores/MainPic",blank=True,null=True,verbose_name='صورة الفرع')
     monthly_visited = models.BooleanField(default=True, verbose_name='زيارة شهرية',blank=True,null=True)
-    user_admin_all = models.ForeignKey(User , blank=True,null=True,on_delete=models.PROTECT,related_name='store_admin',verbose_name="ادمين الفرع")
+    user_admin = models.ForeignKey(User , blank=True,null=True,on_delete=models.PROTECT,related_name='store_admin',verbose_name="ادمين الفرع")
     user_staff = models.ForeignKey(User, blank=True,null=True,on_delete=models.PROTECT,related_name='store_staff',verbose_name="موظف الفرع")
     user_manager_store = models.ForeignKey(User, blank=True,null=True,on_delete=models.PROTECT,related_name='store_manager',verbose_name="مدير الفرع")
     active = models.BooleanField(default=True, verbose_name='يعمل',blank=True,null=True)
@@ -71,11 +61,14 @@ class Store(models.Model):
     location_store = models.CharField(max_length=1000, verbose_name="الموقع",blank=True,null=True)
     tag = models.ManyToManyField(Tags,verbose_name=("Tag"), blank=True)
     slug = models.SlugField(blank=True, null=True)
-
+    visits = models.ManyToManyField('aman.Visit',blank=True,related_name='visitat',verbose_name='الزيارات')
     def save(self , *args , **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super(Store,self).save(*args, **kwargs)
+    
+    def get_visit_store(self):
+        self.visits = Visit.objects.filter(store=self)
 
     def __unicode__(self):
         return self.name
@@ -111,20 +104,26 @@ class Item(models.Model):
         return str(self.name)
 
 class ImageFault(models.Model):
-    fault = models.ForeignKey('aman.Visit',on_delete=models.SET_NULL, blank=True, null=True,verbose_name="الزيارة")
+    fault = models.ForeignKey('aman.Fault',on_delete=models.SET_NULL, blank=True, null=True,verbose_name="العطل")
     image = models.ImageField(upload_to='Faults/')
-
 
 class Fault(models.Model):
     name = models.CharField(verbose_name=("اسم العطل"), max_length=100)
     describe = models.TextField(max_length=3000,blank=True, null=True,verbose_name=('وصف المشكلة'))
     item = models.ForeignKey('aman.Item',on_delete=models.PROTECT,blank=True,null=True)
-    status = models.BooleanField()
-    quantity = models.PositiveIntegerField()
+    status = models.BooleanField(verbose_name='تم الاصلاح')
+    quantity = models.PositiveIntegerField(default=1)
     visit = models.ForeignKey('aman.Visit', related_name='fault_visit',on_delete=models.PROTECT,blank=True,null=True,verbose_name='الزيارة')
+    created_by = models.ForeignKey('aman.Profile',on_delete=models.PROTECT, related_name='created_by' ,blank=True, null=True,verbose_name="ارسال بواسطة")
+    created_at = models.DateTimeField(auto_now=True,verbose_name='وقت ارسال المشكلة')
+    belong_to = models.ForeignKey('aman.Store',on_delete=models.PROTECT,blank=True,null=True)
 
     def __str__(self):
         return self.name
+
+    def get_visits(self):
+        pass
+
 
 class Visit(models.Model):
     types_visit = (
@@ -134,18 +133,16 @@ class Visit(models.Model):
         ('معاينة','معاينة') ,
         )
     store = models.ForeignKey(Store ,verbose_name='الفرع',null=True, blank=True, on_delete=models.PROTECT)
-    
     type_of = models.CharField(max_length=100,blank=True, null=True,verbose_name='نوع الزيارة',choices=types_visit)
     short_desc = models.CharField(max_length=300,blank=True, null=True,verbose_name=('ملخص المشكلة'))
     describe_proplem = models.TextField(max_length=3000,blank=True, null=True,verbose_name=('وصف المشكلة'))
-    done = models.BooleanField(default=False)
-    argent = models.BooleanField(default=False)
+    done = models.BooleanField(default=False,verbose_name='انتهاء الزيارة')
+    argent = models.BooleanField(default=False,verbose_name='طارئ')
     date_created = models.DateTimeField(auto_now=True,verbose_name='وقت تقديم الطلب')
     date_visit = models.DateTimeField(verbose_name='موعد الزيارة',blank=True,null=True)
-    content = models.ManyToManyField("aman.Item",related_name='items', verbose_name=("الوحدة"),blank=True)
-    fixed_by = models.ForeignKey('aman.Profile',on_delete=models.PROTECT,blank=True, null=True,verbose_name="اصلاح بواسطة")
-    send_by = models.ForeignKey('aman.Profile',on_delete=models.PROTECT, related_name='sendby' ,blank=True, null=True,verbose_name="ارسال بواسطة")
-    faults = models.ManyToManyField('aman.Fault',related_name='visit_faults',blank=True,verbose_name="اصلاح بواسطة")
+    fixed_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL,blank=True, null=True,verbose_name="اصلاح بواسطة")
+    send_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL, related_name='sendby' ,blank=True, null=True,verbose_name="ارسال بواسطة")
+    faults = models.ManyToManyField('aman.Fault',blank=True,related_name='proplems' ,verbose_name="الأعطال")
 
     def save(self , *args , **kwargs):
         if not self.short_desc:
@@ -153,4 +150,7 @@ class Visit(models.Model):
         super(Visit,self).save(*args, **kwargs)
     def __str__(self):
         return str(self.short_desc)
+
+    def get_faults(self,faults):
+        faults = Fault.objects.filter(belong_to=self.store)
 

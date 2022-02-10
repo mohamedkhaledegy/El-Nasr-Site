@@ -2,18 +2,36 @@
 <section class="my-5 py-5">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            {% for vis in visits %}
-            <div class="col-lg-4 text-end">
+            <div class="col-lg-12 text-end">
                 <div class="card">
                     <div class="card-header">
                         <h3>الفرع : {{vis.store}}</h3>
                     </div>
-                    <div class="card-body">
-                        <p>التاريخ : {{vis.date_visit}}</p>
+                    <div dir="rtl" class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>الفرع</th>
+                                    <th>نوع الزيارة</th>
+                                    <th>تاريخ الزيارة</th>
+                                    <th>الأعطال</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for vis in visits %}
+                                <tr>
+                                    <th>{{vis.store}}</th>
+                                    <td>{{vis.type_of}}</td>
+                                    <td>{{vis.date_visit}}</td>
+                                    <td>{{fault}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>

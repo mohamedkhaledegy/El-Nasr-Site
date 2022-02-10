@@ -46,7 +46,7 @@
                                 <div class="elsatr1">
                                     <i class="bi bi-whatsapp"></i> {% if str.location_store %}
                                     <a href="https://api.whatsapp.com/send?text=فرع {{str.name}} العنوان : {{str.location_store}}" class="badge-outline-success mx-1"><i class="bi-geo-alt-fill"></i></a> {% endif %}
-                                    <a href="https://api.whatsapp.com/send?text=ادمين فرع {{str.name}}  استاذ {{str.user_admin}}  رقم التليفون  {{str.user_admin}}" class="badge-outline-success"><i class="bi bi-person-fill"></i></a>
+                                    <a href="https://api.whatsapp.com/send?text=ادمين فرع {{str.name}}  استاذ {{str.user_admin}}  رقم التليفون  {{str.user_admin.profile.phone_number}}" class="badge-outline-success"><i class="bi bi-person-fill"></i></a>
                                 </div>
                                 <div class="elsatr2">
                                     <i class="bi bi-brush"></i>
@@ -72,12 +72,13 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">الزيارات</a>
                     <div class="text-end dropdown-menu m-0">
-                        <a href="#" class="dropdown-item">جميع الزيارات</a>
+                        <a href="{% url 'visit_list' %}" class="dropdown-item">جميع الزيارات</a>
+                        <a href="{% url 'visit_list_admin' %}" class="dropdown-item">زيارات فروعى</a>
                         <a href="#" class="dropdown-item">زيارات الشهر</a>
                         <a href="#" class="dropdown-item">زيارات فرع</a>
                     </div>
                 </div>
-                <a href="{% url 'visit_list' %}" class="nav-item nav-link">أعطال الفروع</a>
+                <a href="{% url 'fault_list' %}" class="nav-item nav-link">أعطال الفروع</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">أعمال أخرى</a>
                     <div class="text-end dropdown-menu m-0">
@@ -98,13 +99,13 @@
         <div class="row gx-0">
             <div class="col-md-12 text-center mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
-                <button type="button" class="btn btn-outline-light text-info"><b>{{user}}</b> مرحبا  </button>
+                <button type="button" class="btn btn-outline-light text-info"><b>{{user.profile.first_name}}</b> مرحبا  </button>
                 <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a>
                 <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a>
                 <hr> {% else %} {% if request.path != "/accounts/login/" %}
                 <div class="row">
                     <div class="col-12 text-center">
-                        <a href="{% url 'login' %}" class="btn btn-primary">يرجى تسجل الدخول أولا </a>
+                        <a href="{% url 'login' %}" class="btn btn-primary">يرجى تسجيل الدخول  </a>
                     </div>
                 </div>
                 {% endif %}{% endif %}

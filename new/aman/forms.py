@@ -1,7 +1,7 @@
 from dataclasses import field, fields
 from django import forms
 from django.forms import Form, ModelForm, DateField, widgets
-from .models import Item , Visit
+from .models import Fault, Item , Visit
 
 class VisitForm(forms.ModelForm):
     class Meta:
@@ -16,9 +16,14 @@ class VisitForm(forms.ModelForm):
 class VisitFormStaff(forms.ModelForm):
     class Meta:
         model = Visit
-        exclude = ['done','store','fixed_by','send_by','date_visit','created_by','argent']
+        exclude = ['done']
 
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
+        fields = '__all__'
+
+class FaultForm(forms.ModelForm):
+    class Meta:
+        model = Fault
         fields = '__all__'

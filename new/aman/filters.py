@@ -13,6 +13,7 @@ class StoreFilter(django_filters.FilterSet):
             'name':['icontains'], 
             'address_store':['icontains'],
             'city': ['exact'],
+            'user_admin':['exact'],
             }
         #exclude = ['imageDev','img_dev_full_1','img_dev_full_2']
         filter_overrides = {
@@ -29,8 +30,12 @@ class StoreFilter(django_filters.FilterSet):
                 }
             }
         }
-
 class VisitFilter(django_filters.FilterSet):
     class Meta:
         model = Visit
+        fields = '__all__'
+
+class FaultFilter(django_filters.FilterSet):
+    class Meta:
+        model = Fault
         fields = '__all__'
