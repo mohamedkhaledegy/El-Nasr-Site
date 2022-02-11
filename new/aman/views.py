@@ -1,12 +1,14 @@
 from datetime import datetime
-from .models import *
+from aman.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render ,redirect, get_object_or_404 , get_list_or_404 
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.db.models import Q
-from .forms import *
-from .filters import *
+from aman.forms import *
+from aman.filters import *
+
+from aman.viohat.elprofile import profile
 # Create your views here.
 
 def index(request):
@@ -164,27 +166,6 @@ def visit_list_store(request,slug):
         'visits':visits_store,
         'visits_count':visits_store_count,  }
     return render(request,'visit/visit-list-store.html',context)
-def profile(request):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile,user=request.user)
-        visits_admin = Visit.objects.filter(send_by=profile)
-    else:
-        visits_admin = None
-        profile = None
-    stores = Store.objects.all()
-    store_admin = Store.objects.filter(user_admin=profile.user)
-    num_of_admin_stores = store_admin.count()
-    print(request.user.profile.id)
-    print(request.user)
-    print(profile)
-    context = {
-        'profile':profile,
-        'stores':stores,
-        'stores_user':store_admin,
-        'num_of_admin_stores':num_of_admin_stores,
-        'visits_admin':visits_admin,
-    }
-    return render(request,'profile/profile.html',context)
 
 def visit_detail(request,id):
     visit = get_object_or_404(Visit,id=id)
