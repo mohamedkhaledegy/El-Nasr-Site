@@ -21,7 +21,8 @@
     </div>
     <nav dir="rtl" class="justify-content-between navbar rtl navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="{% url 'home' %}" class="navbar-brand p-0">
-            <h1 class="m-0 text-primary"> <img src="{% static 'img/logo-elnasr.jpg' %}" alt=""> </i>النـصـر</h1>
+            <h1 class="m-0 text-primary"> <img src="{% static 'img/logo-elnasr.jpg' %}" alt=""> </i>
+            </h1>
         </a>
         <hr>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -52,7 +53,6 @@
                                     <i class="bi bi-brush"></i>
                                     <a href="" class="badge-outline-success">
                                         <i class="bi bi-lightning-charge-fill"></a>
-
                                     </i>
                                 </div>
                             </div>
@@ -66,7 +66,6 @@
                     <div class="text-end dropdown-menu m-0">
                         <a href="{% url 'new_visit' %}" class="dropdown-item">طلب صيانة اضافية</a>
                         <a href="{% url 'new_visit' %}" class="dropdown-item">طلب صيانة طارئة</a>
-                        <a href="#" class="dropdown-item">استعلام عن موعد زيارة فرع</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -76,6 +75,16 @@
                         <a href="{% url 'visit_list_admin' %}" class="dropdown-item">زيارات فروعى</a>
                         <a href="#" class="dropdown-item">زيارات الشهر</a>
                         <a href="#" class="dropdown-item">زيارات فرع</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">أعطال ومشاكل الفروع</a>
+                    <div class="text-end dropdown-menu m-0">
+                        <a href="#" class="dropdown-item">جميع الأعطال</a>
+                        <a href="#" class="dropdown-item">أعطال الشهر</a>
+                        <a href="#" class="dropdown-item">الأعطال المؤجل حلها</a>
+                        <a href="#" class="dropdown-item">أعطال فرع معين</a>
+
                     </div>
                 </div>
                 <a href="{% url 'fault_list' %}" class="nav-item nav-link">أعطال الفروع</a>
@@ -92,7 +101,6 @@
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="{% url 'new_visit' %}" class="btn btn-primary py-2 px-4 ms-3">طلب خدمة طوارئ</a> {% else %}
         </div>
-        </div>
         {% endif %}
     </nav>
     <div class="container-fluid mt-2">
@@ -100,9 +108,9 @@
             <div class="col-md-12 text-center mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <button type="button" class="btn btn-outline-light text-info"><b>{{user.profile.first_name}}</b> مرحبا  </button>
-                <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a>
-                <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a>
-                <hr> {% else %} {% if request.path != "/accounts/login/" %}
+                <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a> {% if user.profile.id == 1 %}
+                <a class="btn btn-outline-dark" href="/admin/">Admin Page</a> {% endif %}
+                <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a> {% else %} {% if request.path != "/accounts/login/" %}
                 <div class="row">
                     <div class="col-12 text-center">
                         <a href="{% url 'login' %}" class="btn btn-primary">يرجى تسجيل الدخول  </a>

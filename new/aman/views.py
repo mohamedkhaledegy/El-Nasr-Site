@@ -1,6 +1,4 @@
-from multiprocessing import context
-from os import name
-from tkinter import Image, PhotoImage
+from datetime import datetime
 from .models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render ,redirect, get_object_or_404 , get_list_or_404 
@@ -82,8 +80,7 @@ def store_detail(request , slug):
         'store':store,
         'admin_store':admin,
         'stores':stores,
-        'form_visit':form,
-    }
+        'form_visit':form, }
     return render(request,'store_detail.html',context)
 
 def new_visit(request):
@@ -130,7 +127,6 @@ def visit_list(request):
     for vis in visits:
         print(vis.store)
         print(faults.filter(belong_to=vis.store))
-        
     context = {
         'stores':stores,
         'visits':visits,
@@ -138,8 +134,7 @@ def visit_list(request):
         'visits_count':visits_count,
         'count_stores':store_count,
         'visits_admin_stores':visits_admin_stores,
-        'faults':faults,
-    }
+        'faults':faults,}
     return render(request,'visit/list.html',context)
 
 def visit_list_admin(request):
@@ -150,13 +145,11 @@ def visit_list_admin(request):
     else:
         visits_admin_stores = None
         profile = None
-        
     faults = Fault.objects.all()
     context = {
         'stores_admin':stores,
         'visits_admin':visits_admin_stores,
         'faults':faults,
-
     }
     return render(request,'visit/list_admin.html',context)
 
@@ -169,10 +162,8 @@ def visit_list_store(request,slug):
         'store':store,
         'stores':stores,
         'visits':visits_store,
-        'visits_count':visits_store_count,
-    }
+        'visits_count':visits_store_count,  }
     return render(request,'visit/visit-list-store.html',context)
-
 def profile(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile,user=request.user)
@@ -183,7 +174,7 @@ def profile(request):
     stores = Store.objects.all()
     store_admin = Store.objects.filter(user_admin=profile.user)
     num_of_admin_stores = store_admin.count()
-    print(request.user.profile)
+    print(request.user.profile.id)
     print(request.user)
     print(profile)
     context = {
@@ -210,12 +201,22 @@ def fault_list(request):
     else:
         profile = None
     faults = Fault.objects.all()
+    faults_filter = FaultFilter()
+    faults_visits = Fault.objects.values_list('')
+    if request.GET:
+        faults_filter = FaultFilter(request.GET)
+        faults_filter = FaultFilter(created_by=request.user.id)
+        faults = faults_filter.qs
+    else:
+        faults_filter = None
+        store_filter = FaultFilter()
+    stores = Store.objects.all()
     context = {
         'faults':faults,
-        'fault_form':FaultFilter()
+        'fault_form':faults_filter,
+        'stores':stores,
     }
     return render(request,'fault/fault-list.html',context)
-
 
 def fault_new(request):
     pass
@@ -223,7 +224,18 @@ def fault_new(request):
 def fault_edit(request):
     pass
     
-
+def visit_by_month(request,month_visi):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile,user=request.user)
+    else:
+        profile = None
+    visit_dynmic_monthly = Visit.objects.filter(date_visit=datetime.date)
+    context = {
+        'profile',
+        'monthly',
+    }
+    return render(request,'visit/monthly.html',context)
+    pass
 # def productlist(request , category_slug=None):
 #     category = None
 #     productlist = Product.objects.all()

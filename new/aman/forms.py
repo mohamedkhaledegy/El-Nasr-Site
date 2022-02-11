@@ -12,7 +12,6 @@ class VisitForm(forms.ModelForm):
             'content': widgets.SelectMultiple()   
         }
 
-
 class VisitFormStaff(forms.ModelForm):
     class Meta:
         model = Visit

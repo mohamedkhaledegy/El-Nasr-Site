@@ -124,7 +124,6 @@ class Fault(models.Model):
     def get_visits(self):
         pass
 
-
 class Visit(models.Model):
     types_visit = (
         ('شهرية','شهرية') ,
