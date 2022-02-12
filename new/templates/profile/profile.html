@@ -2,7 +2,6 @@
 <section class="my-5">
     <div class="container">
         <div class="main-body">
-
             <!-- Breadcrumb -->
             <!-- /Breadcrumb -->
 
@@ -27,11 +26,19 @@
                             <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
                                 <a href="#">
                                     <a href="{% url 'stores' %}">
-                                        <h6 class="btn btn-outline-light text-dark"> جميع الفروع</h6>
+                                        <h6 class="btn btn-outline-info text-dark"> عرض بيانات جميع الفروع</h6>
                                     </a>
                                 </a>
                             </li>
                         </ul>
+                    </div>
+                    <div class="card mb-5">
+                        <div class="card-header text-center">
+                            <h3 class="btn-link btn-outline-light">Filter</h3>
+                            <div class="h-200">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -83,6 +90,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row gutters-sm">
                         <div class="col-12">
                             <div class="card-header">
@@ -90,12 +98,12 @@
                             </div>
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <div class="card h-100">
+                            <div class="card h-150">
                                 <div class="card-header text-center">
                                     <h2 class="btn-outline-info rounded ">الفروع</h2>
                                 </div>
                                 <div class="card-body">
-                                    <div class="list-group text-end" style="max-height: 200px; overflow-y: scroll;">
+                                    <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
                                         {% for stor in stores_user %}
                                         <a href="{% url 'store_details' slug=stor.slug %}" class="list-group-item list-group-item-action">
                                             {{stor.name}}
@@ -105,12 +113,12 @@
                             </div>
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <div class="card h-100">
+                            <div class="card h-150">
                                 <div class="card-header text-center">
                                     <h2 class="btn-outline-info rounded ">الزيارات</h2>
                                 </div>
                                 <div class="card-body">
-                                    <div class="list-group text-end" style="max-height: 200px; overflow-y: scroll;">
+                                    <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
                                         {% for visit in visits_admin %}
                                         <a href="{% url 'visit_detail' visit.id %}" class="list-group-item list-group-item-action"> {{visit}}</a> {% endfor %}
                                         <a href="#" class="list-group-item list-group-item-action">العجمى  بتاريخ -    13 شهر فبراير</a>
@@ -121,10 +129,13 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
+            <!--  Section 2 -->
+
+            {% include "profile/section2_admin.html" %}
         </div>
-    </div>
 </section>
 {% endblock content %}
