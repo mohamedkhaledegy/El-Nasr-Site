@@ -14,7 +14,6 @@ def profile(request):
     else:
         profile = None
     
-
     stores = Store.objects.all()
     store_admin = Store.objects.filter(user_admin=profile.user)
     

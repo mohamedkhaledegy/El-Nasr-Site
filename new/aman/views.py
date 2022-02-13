@@ -9,6 +9,7 @@ from aman.forms import *
 from aman.filters import *
 
 from aman.viohat.elprofile import profile
+from aman.viohat.faults import fault_list ,fault_detail , fault_edit , fault_new 
 # Create your views here.
 
 def index(request):
@@ -176,35 +177,7 @@ def visit_detail(request,id):
     }
     return render(request,'visit/visit_detail.html',context)
 
-def fault_list(request):
-    if request.user.is_authenticated:
-        profile = get_object_or_404(Profile,user=request.user)
-    else:
-        profile = None
-    faults = Fault.objects.all()
-    faults_filter = FaultFilter()
-    faults_visits = Fault.objects.values_list('')
-    if request.GET:
-        faults_filter = FaultFilter(request.GET)
-        faults_filter = FaultFilter(created_by=request.user.id)
-        faults = faults_filter.qs
-    else:
-        faults_filter = None
-        store_filter = FaultFilter()
-    stores = Store.objects.all()
-    context = {
-        'faults':faults,
-        'fault_form':faults_filter,
-        'stores':stores,
-    }
-    return render(request,'fault/fault-list.html',context)
 
-def fault_new(request):
-    pass
-
-def fault_edit(request):
-    pass
-    
 def visit_by_month(request,month_visi):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile,user=request.user)
@@ -216,7 +189,7 @@ def visit_by_month(request,month_visi):
         'monthly',
     }
     return render(request,'visit/monthly.html',context)
-    pass
+    
 # def productlist(request , category_slug=None):
 #     category = None
 #     productlist = Product.objects.all()
