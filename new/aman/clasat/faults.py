@@ -1,3 +1,5 @@
+from asyncio.windows_events import NULL
+from types import NoneType
 from django.db import models
 from django.contrib.auth import login ,logout , authenticate
 from django.contrib.auth.models import User
@@ -32,7 +34,13 @@ class Fault(models.Model):
     approved_to_repair = models.BooleanField(default=False , blank=True ,verbose_name='تم الموافقة على الاصلاح')
 
     def __str__(self):
-        return self.name + " لفرع " + str(self.belong_to.name)
+        return self.name + " لفرع " + str(self.belong_to)
 
     def get_visits(self):
         pass
+
+    def set_store_visit(self,*args,**kwargs):
+        if not self.belong_to :
+            self.belong_to = self.visit.store
+            print(self.belong_to)
+        super(Fault,self).save(*args,**kwargs)

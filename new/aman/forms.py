@@ -16,7 +16,7 @@ class VisitFormAdmin(forms.ModelForm):
         model = Visit
         fields = ['store','short_desc',
         'describe_proplem','argent',
-        'faults'
+        'faults',
         ]
 
 class VisitFormStaff(forms.ModelForm):
@@ -46,6 +46,15 @@ class FaultFormAdmen(forms.ModelForm):
         'created_at','active',
         'fixed_at','need_to_approve',
         'approved_to_repair',
+        ]
+class FaultFormEmergency(forms.ModelForm):
+    class Meta:
+        model = Fault
+        exclude = ['item',
+        'status','created_by',
+        'created_at','active',
+        'fixed_at','need_to_approve',
+        'approved_to_repair','belong_to','visit'
         ]
 
 class FaultFormStaff(forms.ModelForm):

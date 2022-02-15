@@ -23,6 +23,7 @@ class Profile(models.Model):
         ('ElNasr','ElNasr'),
         ('default','default'),
     )
+
     user = models.OneToOneField(User , on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50 ,verbose_name="الاسم الاول", blank=True, null=True)
     last_name = models.CharField(max_length=50 ,verbose_name="اللقب", blank=True, null=True)
@@ -37,6 +38,8 @@ class Profile(models.Model):
     pos_in_store = models.CharField(max_length=50 ,choices=pos_site,verbose_name="صفته بالموقع", blank=True, null=True)
     def __str__(self):
         return str(self.user)
+    def full_name(self):
+        return "%s %s" % (self.user.profile.first_name, self.user.profile.last_name)
 
 @receiver(post_save , sender=User)
 def create_user_profile(sender,instance,created , **kwargs):
@@ -62,14 +65,14 @@ class Store(models.Model):
     city = models.CharField(verbose_name=("المدينة"), max_length=50,blank=True, null=True)
     address_store = models.CharField(verbose_name=("العنوان"), max_length=1000,blank=True,null=True)
     location_store = models.CharField(max_length=1000, verbose_name="الموقع",blank=True,null=True)
-    tag = models.ManyToManyField(Tags,verbose_name=("Tag"), blank=True)
+    tag = models.ManyToManyField('aman.Tags',verbose_name=("Tag"), blank=True)
     slug = models.SlugField(blank=True, null=True)
     visits = models.ManyToManyField('aman.Visit',blank=True,related_name='visitat',verbose_name='الزيارات')
     def save(self , *args , **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         super(Store,self).save(*args, **kwargs)
-    
+
     def get_visit_store(self):
         self.visits = Visit.objects.filter(store=self)
 
@@ -96,9 +99,10 @@ class Item(models.Model):
         ('كلادينج','كلادينج'),
         ('الباب الصاج','الباب الصاج'),
         ('ستانلس','ستانلس'),
+        ('سيراميك ورخام','سيراميك ورخام'),
     )
     name = models.CharField(verbose_name=("اسم القطعة-الخدمة"), max_length=100)
-    describe_item = models.TextField(verbose_name=("وصف القطعة"),blank=True, null=True)
+    describe_item = models.TextField(verbose_name=("وصف القطعة"),max_length=4000 ,blank=True, null=True)
     type_parent = models.CharField(verbose_name=("النوع"),max_length=100,choices=item_types)
     image = models.ImageField(upload_to='Items/',blank=True,null=True,verbose_name='صورة القطعة')
     def __str__(self):

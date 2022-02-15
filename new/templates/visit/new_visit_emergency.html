@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %} {% load bootstrap5 %}
+
+<section>
+    <div class="container mt-3 mb-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <p> فرع <b>{{store}}</b> </p>
+                    </div>
+                    <div class="card-body" style="
+                    align-self: center;
+                    text-align: center;">
+                        <form dir="rtl" class="form-floating">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="{{store.address_store}}">
+                            <label for="floatingInputValue">العنوان</label>
+                        </form>
+                        <form dir="rtl" class="form-floating">
+                            <input type="text" class="form-control" id="floatingInputValue" placeholder="name@example.com" value="{{store.user_admin.profile.phone_number}}">
+                            <label for="floatingInputValue">{{store.user_admin}}</label>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <form method="POST">
+                    {% csrf_token %} {% for field in form %} {% bootstrap_field field %} {% endfor %}
+
+                    <div class="col-10">
+                        <button type="submit" class="btn btn-outline-success">Send
+
+                    </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -35,7 +35,8 @@ def fault_list(request):
     }
     return render(request,'fault/fault-list.html',context)
 
-def fault_detail(request):
+def fault_detail(request,id_fault):
+
     pass
 
 def fault_new(request):

@@ -50,10 +50,12 @@
                         <div class="collapse" id="collapse2">
                             <div class="card ">
                                 <div class="card-header ">
-                                    الادمين : {{store_card.user_admin}}
+                                    <i class="bi bi-card-heading"></i> : {{store_card.user_admin.profile.full_name}}
                                 </div>
                                 <div class="card-body ">
                                     <p><i class="fas fa-phone "></i>رقم الموبايل : {{store_card.user_admin.profile.phone_number}}</p>
+                                    <a href="https://api.whatsapp.com/send?text=أ - {{store_card.user_admin.profile.full_name}} رقم التليفون :   {{store_card.user_admin.profile.phone_number}} رقم اخر {{store_card.user_admin.profile.phone_number2}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i>رقم الادمين</a>
+
                                 </div>
                             </div>
                         </div>
@@ -61,10 +63,10 @@
                             <div class="card ">
                                 <div class="card-header ">
                                     الزيارات :
-                                    <a href="/{{store_card.slug}}/visit/list ">الزيارات </a>
+                                    <a href="/{{store_card.slug}}/visit/list ">زيارات الفرع </a>
                                 </div>
                                 <div class="card-body ">
-                                    <p>تم عمل الزيارة الشهرية</p>
+
                                 </div>
                             </div>
                         </div>

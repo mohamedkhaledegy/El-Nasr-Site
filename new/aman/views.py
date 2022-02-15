@@ -80,6 +80,8 @@ def store_detail(request , slug):
             form = VisitForm()
     else:
         form = VisitForm()
+
+    
     context = {
         'store':store,
         'admin_store':admin,

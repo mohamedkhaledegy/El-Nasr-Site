@@ -27,12 +27,14 @@ class Visit(models.Model):
     fixed_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL,blank=True, null=True,verbose_name="اصلاح بواسطة")
     send_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL, related_name='sendby' ,blank=True, null=True,verbose_name="ارسال بواسطة")
     faults = models.ManyToManyField('aman.Fault',blank=True,related_name='proplems' ,verbose_name="الأعطال")
-    active = models.BooleanField()
-    
+    active = models.BooleanField(default=True)
 
     def save(self , *args , **kwargs):
         if not self.short_desc:
             self.short_desc = 'زيارة ' + str(self.type_of) + ' لفرع : ' + str(self.store)
         super(Visit,self).save(*args, **kwargs)
+    
     def __str__(self):
-        return str(self.short_desc)
+        return "زيارة  - %s -  %s - شهر %s" % (self.type_of, self.store ,self.date_visit.month)
+
+    

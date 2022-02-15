@@ -1,5 +1,6 @@
 from asyncio import sslproto
 from datetime import datetime
+from multiprocessing import context
 from aman.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render ,redirect, get_object_or_404 , get_list_or_404 
@@ -13,9 +14,8 @@ def visits_list(request):
         profile = get_object_or_404(Profile,user=request.user)
     else:
         profile = None
-    
     stores_all = Store.objects.all()
-    visits_all = Visit.objects.all().order_by('-date_created')
+    visits_all = Visit.objects.all().order_by('-date_visit')
     faults_all = Fault.objects.all().order_by('-created_at')
 
     if profile.pos_in_store == 'Quality':
@@ -53,6 +53,7 @@ def visits_list(request):
         visits = form.qs
     else:
         form = VisitFilterAdmen()
+        visits = visits_all
 
     context = {
         'form':form,
@@ -64,29 +65,54 @@ def visits_list(request):
         }
     return render(request,'visit/list.html',context)
 
-        
-def fault_list(request):
+
+def new_visit_emergency(request,slug):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile,user=request.user)
     else:
         profile = None
-    faults = Fault.objects.all()
-    if request.GET:
-        if profile.pos_site == 'Admin':
-            faults_filter = FaultFilterAdmen(request.GET)
-            faults = faults_filter.qs
-        elif profile.pos_site == 'Staff':
-            faults_filter = FaultFilterAdmen(request.GET)
-            faults = faults_filter.qs
-        else :
-            faults_filter = FaultFilter(request.GET)
-    else:
-        faults_filter = FaultFilterAdmen()
-        faults = Fault.objects.all().order_by('-fixed_at')
+
     stores = Store.objects.all()
+    store = get_object_or_404(Store,slug=slug)
+    form = FaultFormAdmen()
+    if request.method == "POST":
+        form = FaultFormEmergency(request.POST)
+        if form.is_valid():
+            #store = VisitForm(request.POST)
+            #print(store)
+            form_instance = form.save(commit=False)
+            form_instance.belong_to = store
+            form_instance.created_by = profile
+            form_instance.status = True
+            form_instance.save()
+            print('Success')
+            return redirect('/visit/list/')
+        else:
+            form = FaultFormEmergency()
+    else:
+        form = FaultFormEmergency()
+        # fields = ['store','short_desc',
+        # 'describe_proplem','argent',
+        # 'faults'
+        # ]
+    form.store = store
+
+    print(form)
+
     context = {
-        'faults':faults,
-        'fault_form':faults_filter,
+        'store':store,
         'stores':stores,
+        'form':form
     }
-    return render(request,'fault/fault-list.html',context)
+    return render(request,'visit/new_visit_emergency.html',context)
+
+
+    context = {
+        'form':form,
+        'stores':stores,
+        'visits':visits,
+        'visits_count':visits_count,
+        'count_stores':stores_count,
+        'faultss':faults,
+        }
+    pass
