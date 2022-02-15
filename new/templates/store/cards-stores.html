@@ -6,13 +6,11 @@
                 <div class="section-title bg-light rounded h-100 p-5">
                     <h5 class="position-relative d-inline-block text-primary text-uppercase">Stores</h5>
                     <h1 class="display-6 mb-4">Aman Store IN Egypt </h1>
-
                     <form class="form-group" method="GET" novalidate>
                         {% for field in stores_filter.form %}
                         <small>
 
                         </small> {% bootstrap_field field show_label=False %} {% endfor %}
-
                         <hr> {% buttons %}
                         <button type="submit" class="content-center btn btn-info">
                             Filter
@@ -32,7 +30,6 @@
                             <a class="btn btn-primary btn-square  m-1" data-bs-toggle="collapse" href="#collapse2" role="button" aria-expanded="false" aria-controls="collapse2"><i class="fas fa-user"></i></a>
                             <a class="btn btn-primary btn-square  m-1" data-bs-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapse1"><i class="fas fa-map-marker-alt"></i></a>
                         </div>
-
                     </div>
                     <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
                         <a href="{{store_card.slug}}">
@@ -44,7 +41,6 @@
                                     العنوان
                                 </div>
                                 <div class="card-body">
-
                                     {{store_card.address_store}}
                                     <a href="whatsapp://send?text=فرع {{store_card.name}} العنوان :   {{store_card.address_store}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i> location </a>
                                     <a href="https://api.whatsapp.com/send?text=فرع {{store_card.name}} العنوان :   {{store_card.address_store}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i>العنوان</a>
@@ -58,7 +54,6 @@
                                 </div>
                                 <div class="card-body ">
                                     <p><i class="fas fa-phone "></i>رقم الموبايل : {{store_card.user_admin.profile.phone_number}}</p>
-
                                 </div>
                             </div>
                         </div>
@@ -69,7 +64,6 @@
                                     <a href="/{{store_card.slug}}/visit/list ">الزيارات </a>
                                 </div>
                                 <div class="card-body ">
-
                                     <p>تم عمل الزيارة الشهرية</p>
                                 </div>
                             </div>

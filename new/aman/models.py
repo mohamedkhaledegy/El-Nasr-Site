@@ -6,14 +6,13 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
 
-## Visit Model
+## import Models from clasat 
 ####
 from aman.clasat.visits import *
 from aman.clasat.faults import *
 ####
-
 app_name = 'aman'
-# Create your models here.
+## Create your models here.
 class Profile(models.Model):
     pos_site = (
         ('Admin','Admin' ),
@@ -36,7 +35,6 @@ class Profile(models.Model):
     stores = models.ManyToManyField('aman.Store',verbose_name="الفروع المسئول عنها",blank=True)    
     title = models.CharField(max_length=50 ,verbose_name="المسمى الوظيفى", blank=True, null=True)
     pos_in_store = models.CharField(max_length=50 ,choices=pos_site,verbose_name="صفته بالموقع", blank=True, null=True)
-
     def __str__(self):
         return str(self.user)
 
@@ -80,7 +78,6 @@ class Store(models.Model):
 
     def __str__(self):
         return str(self.name)
-
 class Item(models.Model):
     item_types = (
         ('دهانات','دهانات'),
@@ -104,6 +101,5 @@ class Item(models.Model):
     describe_item = models.TextField(verbose_name=("وصف القطعة"),blank=True, null=True)
     type_parent = models.CharField(verbose_name=("النوع"),max_length=100,choices=item_types)
     image = models.ImageField(upload_to='Items/',blank=True,null=True,verbose_name='صورة القطعة')
-    
     def __str__(self):
         return str(self.name)

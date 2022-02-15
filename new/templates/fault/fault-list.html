@@ -1,24 +1,57 @@
-{% extends "base.html" %} {% load static %} {% block content %} {% load bootstrap5 %}
-
+{% extends "base.html" %} {% load static %}{% load bootstrap5 %} {% block content %}
 <section class="containter mb-5">
     <div class="row">
-        <div class="col-12 px-5">
-            {% for fault in faults %}
-            <div dir="rtl" class="card my-3">
-                <div class="card-header">
-                    <h3>اسم العطل : {{fault.name}}</h3>
-                </div>
-                <div class="card-body bg-light">
-                    <h4>الفرع : {{fault.belong_to}}</h4>
-                    {% if fault.status %}
-                    <label for="status">تم الاصلاح</label>
-                    <input label="تم الاصلاح" type="checkbox" disabled name="status" value="True"> {% else %}
-                    <label for="status">جارى الاصلاح</label>
-                    <input label="جارى الاصلاح" type="checkbox" disabled name="status" value="False"> {% endif %}
-                    <p>{{fault.item}}</p>
-                </div>
+        <div class="card m-auto">
+            <div class="card-header">
+                <h4 class="card-outline-info">فلترة الأعطال</h4>
+            </div>
+            {% for field in fault_form.form %}
+            <div class="col-4"> {% bootstrap_field field %}
+                <hr>
             </div>
             {% endfor %}
+            <small>
+
+            </small>
+
+            <div class="row">
+                <div class="col-3">
+                    {% buttons %}
+                    <button type="submit" class="content-center btn btn-info">
+                        Filter
+                    </button> {% endbuttons %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 px-5">
+            <div class="row">
+                {% for fault in faults %}
+
+                <div class="col-3">
+
+                    <div dir="rtl" class="card my-3">
+                        <div class="card-header">
+                            <h3>اسم العطل : {{fault.name}}</h3>
+                        </div>
+                        <div class="card-body bg-light">
+                            <h4>الفرع : {{fault.belong_to}}</h4>
+                            {% if fault.status %}
+                            <label for="status">تم الاصلاح</label>
+                            <input label="تم الاصلاح" type="checkbox" disabled name="status" value="True"> {% else %}
+                            <label for="status">جارى الاصلاح</label>
+                            <input label="جارى الاصلاح" type="checkbox" disabled name="status" value="False"> {% endif %}
+                            <p>{{fault.item}}</p>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
         </div>
         <div class="col-3 px-5">
 

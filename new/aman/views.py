@@ -10,6 +10,7 @@ from aman.filters import *
 
 from aman.viohat.elprofile import profile
 from aman.viohat.faults import fault_list ,fault_detail , fault_edit , fault_new 
+from aman.viohat.visits import *
 # Create your views here.
 
 def index(request):
@@ -96,9 +97,9 @@ def new_visit(request):
     if request.method == "POST":
         form = VisitForm(request.POST)
         if form.is_valid():
-            #store = VisitForm(request.POST)
+            visitform = VisitForm(request.POST)
             #print(store)
-            form.save()
+            visitform.save()
             return redirect('/stores')
         else:
             form = VisitForm()
@@ -165,15 +166,15 @@ def visit_list_store(request,slug):
         'store':store,
         'stores':stores,
         'visits':visits_store,
-        'visits_count':visits_store_count,  }
+        'visits_count':visits_store_count}
     return render(request,'visit/visit-list-store.html',context)
 
 def visit_detail(request,id):
     visit = get_object_or_404(Visit,id=id)
-    items = get_list_or_404(Item,visit=visit)
+    faults = Fault.objects.filter(visit=visit)
     context = {
         'visit':visit,
-        'items':items,
+        'faults':faults,
     }
     return render(request,'visit/visit_detail.html',context)
 

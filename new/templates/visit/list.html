@@ -1,34 +1,105 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {% load static %} {% load bootstrap5 %}
+<style>
+    .table {
+        table-layout: fixed;
+    }
+    
+    tr:hover {
+        background-color: rgb(208, 255, 255);
+    }
+    
+    .td,
+    th,
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
 <section class="my-5 py-5">
-    <div class="container-fluid">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-4 inline-group">
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filter Visits</button>
+            </div>
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <form method="GET">
+                        {% for field in form.form %} {% bootstrap_field field %} {% endfor %}
+                        <button type="submit" class="btn btn-outline-dark">Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <div class="col-lg-12 text-end">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>الفرع : {{vis.store}}</h3>
-                    </div>
-                    <div dir="rtl" class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>الفرع</th>
-                                    <th>نوع الزيارة</th>
-                                    <th>تاريخ الزيارة</th>
-                                    <th>الأعطال</th>
-                                </tr>
-                            </thead>
+                <div class="table-responsive">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h3>الزيارات
 
-                            <tbody>
-                                {% for vis in visits %}
-                                <tr>
-                                    <th>{{vis.store}}</th>
-                                    <td>{{vis.type_of}}</td>
-                                    <td>{{vis.date_visit}}</td>
-                                    <td>{{fault}}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                            </h3>
+                        </div>
+                        <div dir="rtl" class="card-body">
+                            <table class="table table-bordered table-responsive-sm">
+                                <thead class="text-center">
+                                    <tr aria-rowspan="2">
+                                        <th rowspan="2">الفرع</th>
+                                        <th rowspan="2">نوع الزيارة</th>
+                                        <th rowspan="2">تاريخ الزيارة</th>
+                                        <th colspan="4">الأعطال
+
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>اسم العطل</td>
+                                        <td>تم الاصلاح</td>
+                                        <td>الوحدة التى تم تغييرها</td>
+                                        <td>صورة الوحدة</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for vis in visits %}
+                                    <tr>
+                                        <th>{{vis.store}}</th>
+                                        <td>{{vis.type_of}}</td>
+                                        <td>{{vis.date_visit|date}}</td>
+                                        <td class="col" colspan="4">
+                                            {% for fault in vis.faults.all %}
+
+                                            <table class="table table-bordered  table-responsive-sm">
+                                                <thead>
+                                                    <tr>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-light">
+                                                    <tr aria-colspan="4">
+                                                        <td class="fault_table">{{fault.name}}</td>
+                                                        <td class="fault_table">{{fault.status}}</td>
+                                                        {% if fault.item %}
+                                                        <td class="fault_table">{{fault.item}}</td>
+                                                        <td class="fault_table"><img width="50px" height="50px" src="{{fault.item.image.url}}" alt="{{fault.item.name}}"></td>
+                                                        {% else %}
+                                                        <td class="fault_table">لا يوجد قطع غيار</td>
+                                                        <td class="fault_table"><img width="50px" height="50px" src="{% static 'img/logo-elnasr.jpg' %}" alt="{{fault}}"></td>
+                                                        {% endif %}
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            {% endfor %}
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import django_filters
 from django_filters.filters import CharFilter
 from django import forms
 from .models import *
-
 class StoreFilter(django_filters.FilterSet):
     #price__gt = django_filters.NumberFilter(field_name='priceDev', lookup_expr='gt')
     class Meta:
@@ -35,7 +34,49 @@ class VisitFilter(django_filters.FilterSet):
         model = Visit
         fields = '__all__'
 
+
+########################################
+###################################
+################## Faults
+########################################
+###################################
 class FaultFilter(django_filters.FilterSet):
     class Meta:
         model = Fault
         fields = '__all__'
+class FaultFilterStaff(django_filters.FilterSet):
+    class Meta:
+        model = Fault
+        exclude = ['item',
+        'status','created_by',
+        'created_at',
+        'fixed_at',
+        'active',
+        'active_tosend',
+        'need_to_approve',
+        'approved_to_repair',
+        ]
+class FaultFilterAdmen(django_filters.FilterSet):
+    class Meta:
+        model = Fault
+        exclude = ['item',
+        'status','created_by',
+        'created_at','active',
+        'fixed_at','need_to_approve',
+        'approved_to_repair',
+        ]
+
+class VisitFilterAdmen(django_filters.FilterSet):
+    class Meta:
+        model = Visit
+        fields = {
+            'store':['exact'], 
+            'short_desc':['icontains'],
+            'store__city': ['icontains'],
+        }
+        
+########################################
+###################################
+################## visits
+########################################
+###################################

@@ -117,11 +117,10 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
-                                        {% for visit in visits_admin %}
+                                        {% for visit in visits_this_month %}
                                         <a href="{% url 'visit_detail' visit.id %}" class="list-group-item list-group-item-action"> {{visit}}</a> {% endfor %}
-                                        <a href="#" class="list-group-item list-group-item-action">العجمى  بتاريخ -    13 شهر فبراير</a>
-                                        <a href="#" class="list-group-item list-group-item-action">الورديان  بتاريخ -    13 شهر فبراير</a>
-                                        <a href="#" class="list-group-item list-group-item-action">السيوف  بتاريخ -     14 شهر فبراير</a>
+
+                                        <a href="#" class="list-group-item list-group-item-action"><b class="text-center link-dark"> زيارات الشهر الحالى فقط </b></a>
                                     </div>
                                 </div>
                             </div>

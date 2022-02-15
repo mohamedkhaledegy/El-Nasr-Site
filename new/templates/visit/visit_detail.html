@@ -21,7 +21,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for itm in items %}
+                                {% for itm in faults %}
                                 <tr>
                                     <td>
                                         {{itm.type_parent}}
@@ -30,7 +30,10 @@
                                         {{itm.name}}
                                     </td>
                                     <td>
-                                        <img class="img" src="{{itm.image.url}}" alt="{{itm.name}}" style="max-width: 60px;max-width: 60px;">
+                                        {% if itm.image %}
+
+                                        <img class="img" src="{{itm.image.url}}" alt="{{itm.name}}" style="max-width: 60px;max-width: 60px;"> {% else %}
+                                        <img class="img" style="max-width: 60px;max-width: 60px;"> {% endif %}
                                     </td>
                                     <td>
                                         {% if not itm.status %}

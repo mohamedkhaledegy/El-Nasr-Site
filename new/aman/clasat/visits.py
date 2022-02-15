@@ -27,6 +27,8 @@ class Visit(models.Model):
     fixed_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL,blank=True, null=True,verbose_name="اصلاح بواسطة")
     send_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL, related_name='sendby' ,blank=True, null=True,verbose_name="ارسال بواسطة")
     faults = models.ManyToManyField('aman.Fault',blank=True,related_name='proplems' ,verbose_name="الأعطال")
+    active = models.BooleanField()
+    
 
     def save(self , *args , **kwargs):
         if not self.short_desc:

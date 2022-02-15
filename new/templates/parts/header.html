@@ -108,7 +108,7 @@
             <div class="col-md-12 text-center mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <button type="button" class="btn btn-outline-light text-info"><b>{{user.profile.first_name}}</b> مرحبا  </button>
-                <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a> {% if user.profile.id == 1 %}
+                <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a> {% if user.profile.pos_in_store == 'Quality' or user.profile.pos_in_store == 'Manager' or user.profile.pos_in_store == 'ElNasr' %}
                 <a class="btn btn-outline-dark" href="/admin/">Admin Page</a> {% endif %}
                 <a href="{% url 'logout' %}" class="btn btn-danger">Log Out</a> {% else %} {% if request.path != "/accounts/login/" %}
                 <div class="row">

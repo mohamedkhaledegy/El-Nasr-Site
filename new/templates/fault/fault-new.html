@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %} {% load static %} {% load bootstrap5 %} {% bootstrap_messages %}
+<section>
+    <div class="container">
+        <div class="row justify-content-between ">
+            <div class="col-4">
+                <div class="row">
+                    {% for field in form_new_fault %}
+                    <div class="col-4">
+
+                        {% bootstrap_field field %}
+
+                    </div>
+                    {% endfor %}
+                </div>
+                <hr> {% buttons %}
+                <button type="submit" class="content-center btn btn-info">
+                    Filter
+                </button> {% endbuttons %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -16,31 +16,26 @@ def profile(request):
     
     stores = Store.objects.all()
     store_admin = Store.objects.filter(user_admin=profile.user)
-    
-    num_of_admin_stores = store_admin.count()
-    this_month = datetime.now().month
-    print(this_month)
-    visit_filter = Visit.objects.filter(date_visit__month=this_month,send_by=request.user.id)
-    visitat = Visit.faults
-    print("visitat")
-    print(visitat)
-    print("Number of Visit for my Branch")
-    print(visit_filter.count())
-    fault_filter = Fault.objects.filter(created_at__month=this_month)
-    if ['name_of_store'] in request:
-        store_choosen = request['name_of_store']
-    else:
-        store_choosen = None
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    
-    print(ip)
 
+    
+    ## عدد فروع الاددمين
+    num_of_admin_stores = store_admin.count()
+
+    ## الشهر
+    this_month = datetime.now().month
+    
+    ## فلتر لزيارات الشهر
+    visit_filter = Visit.objects.filter(date_visit__month=this_month,send_by=request.user.id)
+    
+    ## فلتر الأعطال
+
+    fault_filter = Fault.objects.filter(created_at__month=this_month,belong_to__in=store_admin)
+    if fault_filter.count() >= 0:
+        print(fault_filter)    
     print("Visit Filters count is >>")
     print(visit_filter.count())
+    print("Fault Filters count is >>")
+    print(fault_filter.count())
     context = {
         #### محتويات البروفايل
 
@@ -49,9 +44,8 @@ def profile(request):
         'stores_user':store_admin,  ## فروع الادمين
         'num_of_admin_stores':num_of_admin_stores, ## عدد فروع الادمين
         'this_month':this_month, ### الشهر الحالى
-        'visits_this_month':visit_filter, ### الزيارات للشهر الحالى
-        'faults_this_month':fault_filter, ### الاعطال للشهر الحالى
-        'store_choosen':store_choosen,
+        'visits_this_month':visit_filter, ### الزيارات لفروع الادمن
+        'faults_this_month':fault_filter, ### الاعطال لفروع الادمن
 
     }
     return render(request,'profile/profile.html',context)
