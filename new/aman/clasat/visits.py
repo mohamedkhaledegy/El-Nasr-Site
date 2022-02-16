@@ -1,4 +1,5 @@
 
+from datetime import date, datetime
 from django.db import models
 from django.contrib.auth import login ,logout , authenticate
 from django.contrib.auth.models import User
@@ -37,4 +38,7 @@ class Visit(models.Model):
     def __str__(self):
         return "زيارة  - %s -  %s - شهر %s" % (self.type_of, self.store ,self.date_visit.month)
 
+    # def get_visits_this_month(self,a):
+    #     return "%s" self. = [x for x in Visit.objects.filter(date_visit__month=datetime.now.month)]
+    
     

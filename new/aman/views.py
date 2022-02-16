@@ -70,10 +70,11 @@ def store_detail(request , slug):
     if request.method == "POST":
         form = VisitForm(request.POST)
         if form.is_valid():
-            #store = VisitForm(request.POST)
+            form = VisitForm(request.POST)
             #print(store)
             form_instance = form.save(commit=False)
             form_instance.store = store
+            form_instance.send_by = profile
             form_instance.save()
             return redirect('/visit/list/')
         else:

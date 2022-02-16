@@ -15,8 +15,31 @@
         vertical-align: middle;
     }
 </style>
+
+
 <section class="my-5 py-5">
     <div class="container">
+
+        <!-- Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">تفاصيل العطل</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                        <button type="button" class="btn btn-primary">حفظ التغييرات</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start Section -->
         <div class="row justify-content-end">
             <div class="col-4 inline-group">
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filter Visits</button>
@@ -24,14 +47,20 @@
 
             <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Advanced Filter</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
+
                 <div class="offcanvas-body">
-                    <form method="GET">
-                        {% for field in form.form %} {% bootstrap_field field %} {% endfor %}
-                        <button type="submit" class="btn btn-outline-dark">Filter</button>
-                    </form>
+                    <div class="row">
+                        <form method="GET" novalidate>
+                            <div class="col">
+                                {% for field in form.form %} {% if field.error %} {{field}}HH {% endif %} {% bootstrap_field field placeholder="" %} {% endfor %}
+                                <button type="submit" class="btn btn-outline-dark">Filter</button>
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,18 +70,16 @@
                     <div class="card">
                         <div class="card-header text-center">
                             <h3>الزيارات
-
                             </h3>
                         </div>
                         <div dir="rtl" class="card-body">
                             <table class="table table-bordered table-responsive-sm">
-                                <thead class="text-center">
+                                <thead class="text-center bg-dark text-light-bold">
                                     <tr aria-rowspan="2">
                                         <th rowspan="2">الفرع</th>
                                         <th rowspan="2">نوع الزيارة</th>
                                         <th rowspan="2">تاريخ الزيارة</th>
                                         <th colspan="4">الأعطال
-
                                         </th>
                                     </tr>
                                     <tr>
@@ -71,14 +98,67 @@
                                         <td>{{vis.date_visit|date}}</td>
                                         <td class="col" colspan="4">
                                             {% for fault in vis.faults.all %}
-
                                             <table class="table table-bordered  table-responsive-sm">
                                                 <thead>
                                                     <tr>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-outline-light add-link-hover text-black-50" data-bs-toggle="modal" data-bs-target="#exampleModal{{fault.id}}">تفاصيل العطل</button>
+                                                        <div class="modal fade" id="exampleModal{{fault.id}}" tabindex="-1" aria-labelledby="exampleModal{{fault.id}}Label" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-secondary">
+                                                                        <h5 class="modal-title" id="exampleModal{{fault.id}}Label">تفاصيل العطل</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body text-end">
+                                                                        <div class="row">
+                                                                            <div class="col-4 sticky-top">
+                                                                                <b class="text-dark"> <span class="text-muted"> أنشئ بواسطة : </span> {{fault.created_by.user.get_full_name}}</b>
+                                                                                <hr>
+                                                                                <p><small>تاريخ الزيارة :</small> <br> {{fault.visit.date_visit}}</p>
+                                                                            </div>
+                                                                            <div class="col-8">
+                                                                                <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
+                                                                                    <span>العطل</span>
+                                                                                    <h4>{{fault.name}} </h4>
+                                                                                    | فرع <br>
+                                                                                    <b class="text-dark">{{fault.belong_to.name}} 
+                                                                                        <span class="text-muted">منطقة</span>
+                                                                                         {{fault.belong_to.name_area}} 
+                                                                                         <span class="text-muted">مدينة </span>
+                                                                                          {{fault.belong_to.city}}
+                                                                                    </b>
+                                                                                    <h6>
+                                                                                        <small class="text-muted text-center">تفاصيل : <br> 
+                                                                                        </small><b class="text-dark">{{fault.describe}}</b>
+                                                                                    </h6>
+                                                                                    {% if fault.item.image %}
+                                                                                    <picture>
+
+                                                                                        <img width="80%" src="{{fault.item.image.url}}" alt="f{{ault.item}}">
+                                                                                    </picture>
+                                                                                    {% endif %} {% if fault.status %}
+                                                                                    <p><i class=""></i>
+                                                                                        <i class="fas fa-badge-check"></i></p>
+                                                                                    {% else %}
+                                                                                    <p>Not Active</p>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                                                                        <button type="button" class="btn btn-primary">حفظ التغييرات</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                     </tr>
                                                 </thead>
-                                                <tbody class="bg-light">
+                                                <tbody class="bg-light text-lg-center">
                                                     <tr aria-colspan="4">
                                                         <td class="fault_table">{{fault.name}}</td>
                                                         <td class="fault_table">{{fault.status}}</td>

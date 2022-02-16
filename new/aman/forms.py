@@ -6,10 +6,10 @@ from .models import Fault, Item , Visit
 class VisitForm(forms.ModelForm):
     class Meta:
         model = Visit
-        exclude = ['done','store']
+        exclude = ['done','store','send_by','fixed_by','type_of']
         widgets = {
             'date_visit': widgets.DateInput(attrs={'type': 'date'}),
-            'content': widgets.SelectMultiple()
+            'item': widgets.SelectMultiple()
         }
 class VisitFormAdmin(forms.ModelForm):
     class Meta:
@@ -47,15 +47,20 @@ class FaultFormAdmen(forms.ModelForm):
         'fixed_at','need_to_approve',
         'approved_to_repair',
         ]
+
 class FaultFormEmergency(forms.ModelForm):
     class Meta:
         model = Fault
-        exclude = ['item',
+        exclude = [
         'status','created_by',
         'created_at','active',
         'fixed_at','need_to_approve',
-        'approved_to_repair','belong_to','visit'
+        'approved_to_repair','belong_to','visit',
         ]
+        widgets = {
+            'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
+            
+        }
 
 class FaultFormStaff(forms.ModelForm):
     class Meta:

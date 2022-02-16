@@ -106,13 +106,3 @@ def new_visit_emergency(request,slug):
     }
     return render(request,'visit/new_visit_emergency.html',context)
 
-
-    context = {
-        'form':form,
-        'stores':stores,
-        'visits':visits,
-        'visits_count':visits_count,
-        'count_stores':stores_count,
-        'faultss':faults,
-        }
-    pass
