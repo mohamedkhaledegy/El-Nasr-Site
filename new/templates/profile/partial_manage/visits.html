@@ -1,9 +1,11 @@
-{% load static %}
+{% load static %} {% load bootstrap5 %}
 <div class="col-12 mb-3">
     <div dir="rtl" class="card h-350">
         <div class="card-header">
             <h2 class="btn-outline-info rounded text-center">الزيارات</h2>
             <span class="badge rounded-circle bg-dark">{{visits.count}}</span>
+
+            <!-- Modal -->
 
         </div>
         <div class="card-body">
@@ -40,6 +42,54 @@
                                 {% for item in visit.faults.all %}
                                 <h4 class="badge bg-info text-black">{{item}}</h4> {% endfor %}
 
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">تفاصيل العطل</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-horizontal" method="post" novalidate>{% csrf_token %}
+                                                    <fieldset>
+                                                        <legend>{{ title }}</legend>
+                                                        {% for field in store_form_update %} {% if field.errors %}
+                                                        <div class="control-group error">
+                                                            <label class="control-label">{{ field.label }}</label>
+                                                            <div class="controls">{{ field }}
+                                                                <span class="help-inline">
+                                                                    {% for error in  field.errors %}{{ error }}{% endfor %}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        {% else %}
+                                                        <div class="control-group">
+                                                            <label class="control-label">{{ field.label }}</label>
+                                                            <div class="controls">{{ field }} {% if field.help_text %}
+                                                                <p class="help-inline"><small>{{ field.help_text }}</small></p>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        {% endif %} {% endfor %}
+                                                    </fieldset>
+                                                    <div class="form-actions">
+                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% for field in store_form_update %} {% bootstrap_field field value=item %} {% endfor %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                                                <button type="button" class="btn btn-primary">حفظ التغييرات</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-light add-link-hover text-black-50" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">تعديل العطل</button>
                             </div>
                         </div>
 

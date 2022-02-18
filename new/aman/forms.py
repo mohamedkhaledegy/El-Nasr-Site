@@ -47,6 +47,10 @@ class FaultFormAdmen(forms.ModelForm):
         'fixed_at','need_to_approve',
         'approved_to_repair',
         ]
+        widgets = {
+            'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
+        }
+
 
 class FaultFormEmergency(forms.ModelForm):
     class Meta:
@@ -59,7 +63,6 @@ class FaultFormEmergency(forms.ModelForm):
         ]
         widgets = {
             'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
-            
         }
 
 class FaultFormStaff(forms.ModelForm):

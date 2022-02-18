@@ -38,16 +38,43 @@ def manage(request):
     else:
         profile = None
 
+    stores_all = Store.objects.all()
+    visits_all = Visit.objects.all().order_by('-date_visit')
+    faults_all = Fault.objects.all().order_by('-created_at')
 
-    stores = Store.objects.all()
-    faults = Fault.objects.all()
-    visits = Visit.objects.all()
+    if profile.pos_in_store == 'Quality':
+        stores = stores_all
+        visits = visits_all
+        faults = faults_all
+        form = FaultFormAdmen()
+    elif profile.pos_in_store == 'Manager':
+        stores = stores_all
+        visits = visits_all
+        faults = faults_all
+        form = FaultFormAdmen()
+    elif profile.pos_in_store == 'Admin':
+        stores = stores_all.filter(user_admin=request.user)
+        visits = visits_all.filter(store__in=stores)
+        faults = faults_all.filter(belong_to__in=stores)
+        form = FaultFormAdmen()
+    elif profile.pos_in_store == "ELNASR":
+        stores = stores_all
+        visits = visits_all
+        faults = faults_all
+        form = FaultFormAdmen()
+
+    form = FaultFormAdmen()
+
+    if request.POST:
+        form = FaultFormAdmen(request.POST)
+        
+    store_update_form = form
 
 
-
-    contex = {'stores':stores,'faults':faults,
-        'visits':visits,'visits_count':visits.count(),
-        'stores_count':stores.count(),'faults_count':faults.count(),
+    contex = {'stores':stores_all,'faults':faults_all,
+        'visits':visits_all,'visits_count':visits_all.count(),
+        'stores_count':stores_all.count(),'faults_count':faults_all.count(),
+        'store_form_update':store_update_form,
         #'count_items':count_items_in_visits,
         }
     return render(request,'profile/manage.html',contex)

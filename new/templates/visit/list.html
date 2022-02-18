@@ -16,7 +16,6 @@
     }
 </style>
 
-
 <section class="my-5 py-5">
     <div class="container">
 
@@ -120,7 +119,7 @@
                                                                             <div class="col-8">
                                                                                 <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
                                                                                     <span>العطل</span>
-                                                                                    <h4>{{fault.name}} </h4>
+                                                                                    <h4 id="fault_name" name="fault_name" value="{{fault.name}}">{{fault.name}} </h4>
                                                                                     | فرع <br>
                                                                                     <b class="text-dark">{{fault.belong_to.name}} 
                                                                                         <span class="text-muted">منطقة</span>
