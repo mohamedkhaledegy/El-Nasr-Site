@@ -1,0 +1,50 @@
+<div class="col-12 mb-3">
+    <div dir="rtl" class="card h-350">
+        <div class="card-header">
+            <h2 class="btn-outline-info rounded text-center">الزيارات</h2>
+            <span class="badge rounded-circle bg-dark">{{visits.count}}</span>
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4 text-center">
+                    <button class="border-secondary btn">اسم الفرع</button>
+                </div>
+                <div class="col-3 text-center">
+                    <button class="border-secondary btn">تاريخ الزيارة</button>
+
+                </div>
+                <div class="col-5">
+                    <button class="border-secondary btn">الاعطال</button>
+
+                </div>
+            </div>
+            <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
+                {% for visit in visits %}
+                <div class="row">
+                    <div class="col-4">
+                        <a href="{% url 'visit_detail' visit.id %}" class="list-group-item border-dark list-group-item-action"> {{visit.store}}</a>
+                    </div>
+                    <div class="col-3">
+                        <a href="#" class="list-group-item border-dark list-group-item-action"> {{visit.date_visit|date}}</a>
+                    </div>
+                    <div class="col-5">
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapse{{visit.id}}" role="button" aria-expanded="false" aria-controls="collapse{{visit.id}}">
+                            الاعطال
+                        </a>
+                        <div class="collapse" id="collapse{{visit.id}}">
+                            <div class="card card-body">
+                                {% for item in visit.faults.all %}
+                                <h4 class="badge bg-info text-black">{{item}}</h4> {% endfor %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+                <a href="#" class="list-group-item list-group-flush"><b class="text-center link-dark"> زيارات الشهر الحالى فقط </b></a>
+            </div>
+        </div>
+    </div>
+</div>

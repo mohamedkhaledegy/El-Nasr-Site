@@ -8,6 +8,7 @@ from django.db.models import Q
 from aman.forms import *
 from aman.filters import *
 
+from aman.viohat.units import *
 from aman.viohat.elprofile import profile
 from aman.viohat.faults import fault_list ,fault_detail , fault_edit , fault_new 
 from aman.viohat.visits import *
@@ -30,6 +31,23 @@ def index(request):
         'visit_form':visit_form,
         }
     return render(request,'home.html',context)
+
+def manage(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile,user=request.user)
+    else:
+        profile = None
+
+
+    stores = Store.objects.all()
+    faults = Fault.objects.all()
+
+    visits = Visit.objects.all()
+    contex = {'stores':stores,'faults':faults,
+        'visits':visits,
+        }
+    return render(request,'profile/manage.html',contex)
+
 
 def store_list(request):
     if request.user.is_authenticated:

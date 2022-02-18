@@ -1,18 +1,18 @@
 {% extends "base.html" %} {% block content %} {% load static %} {% load bootstrap5 %}
 <style>
-    .table {
-        table-layout: fixed;
-    }
-    
-    tr:hover {
-        background-color: rgb(208, 255, 255);
-    }
+    .table {}
     
     .td,
     th,
     td {
         text-align: center;
         vertical-align: middle;
+    }
+    
+    .faultstable {
+        max-width: 80px;
+        max-height: fit-content;
+        overflow: scroll;
     }
 </style>
 
@@ -66,14 +66,14 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-12 text-end">
-                <div class="table-responsive">
+                <div class="eltable">
                     <div class="card">
                         <div class="card-header text-center">
                             <h3>الزيارات
                             </h3>
                         </div>
                         <div dir="rtl" class="card-body">
-                            <table class="table table-bordered table-responsive-sm">
+                            <table class="table table-bordered">
                                 <thead class="text-center bg-dark text-light-bold">
                                     <tr aria-rowspan="2">
                                         <th rowspan="2">الفرع</th>
@@ -96,9 +96,9 @@
                                         <th>{{vis.store}}</th>
                                         <td>{{vis.type_of}}</td>
                                         <td>{{vis.date_visit|date}}</td>
-                                        <td class="col" colspan="4">
+                                        <td class="faultstable" colspan="4">
                                             {% for fault in vis.faults.all %}
-                                            <table class="table table-bordered  table-responsive-sm">
+                                            <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <!-- Button trigger modal -->

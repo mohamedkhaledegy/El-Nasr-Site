@@ -1,0 +1,15 @@
+<div class="col-sm-5 mb-3">
+    <div class="card h-250">
+        <div class="card-header text-center">
+            <h2 class="btn-outline-info rounded ">الفروع</h2>
+        </div>
+        <div class="card-body">
+            <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
+                {% for stor in stores %}
+                <a href="{% url 'store_details' slug=stor.slug %}" class="list-group-item list-group-item-action">
+                    {{stor.name}}
+                </a> {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

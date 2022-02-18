@@ -1,5 +1,4 @@
-from asyncio.windows_events import NULL
-from types import NoneType
+from urllib import request
 from django.db import models
 from django.contrib.auth import login ,logout , authenticate
 from django.contrib.auth.models import User
@@ -7,14 +6,13 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
-
-from aman import *
-
-
 class ImageFault(models.Model):
-
+    
     fault = models.ForeignKey('aman.Fault',on_delete=models.SET_NULL, blank=True, null=True,verbose_name="العطل")
     image = models.ImageField(upload_to='Faults/')
+    
+    def __str__(request):
+        pass
 
 class Fault(models.Model):
 

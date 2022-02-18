@@ -61,3 +61,19 @@ def fault_new(request):
 def fault_edit(request):
     pass
 
+def fault_list_new(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile,user=request.user)
+        if profile.pos_in_store == 'Admin':
+            form = FaultFormAdmen()
+        elif profile.pos_in_store == 'Staff':
+            form = FaultFormStaff()
+        elif profile.pos_in_store == 'Manager':
+            form = FaultForm()
+    
+    context = {
+        'form':form,
+        
+    }
+    faults = Fault.objects.all()
+    return render(request,'fault/fault-list-new.html',context)

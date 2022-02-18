@@ -1,46 +1,48 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
 <!-- Carousel Start -->
-<div class="container-fluid p-0">
-    <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="w-100" src="{% static 'img/const/const4.jpg' %}" alt="Image">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 900px;">
-                        <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
-                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">خدمة 24 ساعة</h1>
-                        <a href="{% url 'new_visit' %}" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">صيانة طارئة</a>
+
+<!-- Carousel End -->
+
+<!-- Stores -->
+<section class="mt-5 ">
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-5 text-end">
+                    <div class="mb-4">
+                        <h5 class="text-primary text-uppercase">النصر للتوريدات والمقاولات العمومية</h5>
+
+                        {% if user.is_authenticated %}
+                        <h1 class="display-5 mb-0">
+                            مرحبا بك فى ادارة صيانة فروع الشركة
+                        </h1>
+                        <p class="mb-4"></p>
+                        <h5 class="text-uppercase text-primary wow fadeInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">الحساب مسجل بصلاحيات ( <b class="badge bg-danger">{{user.profile.pos_in_store}}</b> )</h5>
+                        <h1 class="wow fadeInUp" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;"> <br> نظام الادارة للفروع</h1><a href="{% url 'manage' %}" class="btn btn-primary">من هنا</a>
+                        <br> {% else %}
+                        <p>
+                            يمكنك التواصل معنا من هنا مباشرة ما عليك الا تسجيل الدخول باسم الحساب الخاص بك وكلمة السر من هنا ...
+                        </p>
+                        {% endif %}
+
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img class="w-100" src="{% static 'img/const/repair.webp' %}" alt="Image">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 900px;">
-                        <h5 class="text-white text-uppercase mb-3 animated slideInDown"></h5>
-                        <h1 class="display-1 text-white mb-md-4 animated zoomIn">طلب صيانة عادية</h1>
-                        <a href="{% url 'new_visit' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">صيانة شهرية</a>
-                    </div>
+                <div class="col-lg-7">
+                    {% include "parts/carousel.html" %}
                 </div>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
     </div>
+</section>
+<!-- Stores -->
+
+
+<div class="container">
 </div>
-<!-- Carousel End -->
-
-
 
 <!-- About Start -->
-<div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+<div class="container-fluid mt-5 py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-7">

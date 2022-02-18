@@ -90,9 +90,6 @@ class Item(models.Model):
         ('زجاج','زجاج'),
         ('اكسسوارات السيكوريت','اكسسوارات السيكوريت'),
         ('تكييف','تكييف'),
-        ('نقل','نقل'),
-        ('معاينة','معاينة'),
-        ('رفع مقاسات','رفع مقاسات'),
         ('ستاندات','ستاندات'),
         ('علب خشبية','علب خشبية'),
         ('جيبسون بورد','جيبسون بورد'),
@@ -100,10 +97,36 @@ class Item(models.Model):
         ('الباب الصاج','الباب الصاج'),
         ('ستانلس','ستانلس'),
         ('سيراميك ورخام','سيراميك ورخام'),
+        ('اكليرك','اكليرك'),
+        ('خشب','خشب'),
+        ('معدن','معدن'),
+        ('اكسسوارات اثاث', 'اكسسوارات اثاث'),
     )
     name = models.CharField(verbose_name=("اسم القطعة-الخدمة"), max_length=100)
     describe_item = models.TextField(verbose_name=("وصف القطعة"),max_length=4000 ,blank=True, null=True)
-    type_parent = models.CharField(verbose_name=("النوع"),max_length=100,choices=item_types)
+    type_parent = models.CharField(verbose_name=("النوع"),max_length=100,choices=item_types , blank=True, null=True)
     image = models.ImageField(upload_to='Items/',blank=True,null=True,verbose_name='صورة القطعة')
     def __str__(self):
         return str(self.name)
+
+
+
+class StoreUnit(models.Model):
+    name = models.CharField(max_length=200,blank=True, null=True)
+    image = models.ImageField(upload_to='StoreUnits/',blank=True,null=True,verbose_name='صورة الوحدة')
+    parts = models.ManyToManyField('aman.Item',blank=True,verbose_name='قطع غيار بالوحدة')
+    category = models.CharField(max_length=150,blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class OrderStoreUnit(models.Model):
+    unit = models.OneToOneField('aman.StoreUnit' ,verbose_name='الفرع',null=True, blank=True, on_delete=models.PROTECT)
+    date_created = models.DateField(auto_now=True)
+    date_fixed = models.DateField(verbose_name='تاريخ التنفيذ',blank=True, null=True)
+    type_order = models.CharField(verbose_name='نوع الطلب',null=True, blank=True,max_length=150)
+    from_place = models.ForeignKey('aman.Store' , related_name='from_store',verbose_name=' الفرع المنقول منه',null=True, blank=True, on_delete=models.SET_NULL)
+    to_store = models.ForeignKey('aman.Store' ,verbose_name='الفرع',null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.unit

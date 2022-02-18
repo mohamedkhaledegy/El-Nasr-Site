@@ -1,4 +1,3 @@
-
 from datetime import date, datetime
 from django.db import models
 from django.contrib.auth import login ,logout , authenticate
@@ -7,8 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
-
-from aman import *
 
 class Visit(models.Model):
     types_visit = (
@@ -37,8 +34,5 @@ class Visit(models.Model):
     
     def __str__(self):
         return "زيارة  - %s -  %s - شهر %s" % (self.type_of, self.store ,self.date_visit.month)
-
     # def get_visits_this_month(self,a):
     #     return "%s" self. = [x for x in Visit.objects.filter(date_visit__month=datetime.now.month)]
-    
-    

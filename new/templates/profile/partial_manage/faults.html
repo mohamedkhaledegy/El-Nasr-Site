@@ -1,0 +1,14 @@
+<div class="col-sm-5 mb-3">
+    <div class="card h-250">
+        <div class="card-header text-center">
+            <h2 class="btn-outline-info rounded ">الأعطال</h2>
+        </div>
+        <div class="card-body">
+            <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
+                {% for fault in faults %}
+                <a href="#" class="list-group-item list-group-item-action"> {{fault}}</a> {% endfor %}
+                <a href="#" class="list-group-item list-group-flush"><b class="text-center link-dark"> أعطال الشهر فقط</b></a>
+            </div>
+        </div>
+    </div>
+</div>

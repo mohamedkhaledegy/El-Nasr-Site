@@ -33,10 +33,17 @@
                     </div>
                     <div class="card mb-5">
                         <div class="card-header text-center">
-                            <h3 class="btn-link btn-outline-light">Filter</h3>
-                            <div class="h-200">
+                            <h3 class="btn-link btn-outline-light">التحكم السريع</h3>
 
+                            <div class="h-200">
+                                اختار الفرع
+                                <div class="dropdown-select"> فرع </div>
                             </div>
+                        </div>
+                        <div class="card-body">
+                            <a class=""></a>
+                            <p><button class="btn btn-outline-primary">ابلاغ عن عطل</button></p>
+                            <p><button class="btn btn-outline-primary"></button></p>
                         </div>
                     </div>
                 </div>
@@ -119,8 +126,7 @@
                                     <div class="list-group text-end" style="max-height: 250px; overflow-y: scroll;">
                                         {% for visit in visits_this_month %}
                                         <a href="{% url 'visit_detail' visit.id %}" class="list-group-item list-group-item-action"> {{visit}}</a> {% endfor %}
-
-                                        <a href="#" class="list-group-item list-group-item-action"><b class="text-center link-dark"> زيارات الشهر الحالى فقط </b></a>
+                                        <a href="#" class="list-group-item list-group-flush"><b class="text-center link-dark"> زيارات الشهر الحالى فقط </b></a>
                                     </div>
                                 </div>
                             </div>

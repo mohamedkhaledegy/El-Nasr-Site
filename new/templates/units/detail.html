@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<section class="container detail_unit mt-4">
+    <div class="row">
+        <div class="col-12 card m-3 bg-light">
+            <div class="card-header text-center">
+                <p style="font-size: larger;" class="badge rounded-2 w-75 h-100 bg-primary">
+                    <b>{{unit.name}}</b>
+                </p>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4 p-2">
+
+
+                        <img width="100%" height="auto" class="pic_unit" src="{{unit.image.url}}" alt="{{unit.name}}">
+                    </div>
+                    <div class="col-md-8">
+                        <p>المحتويات</p>
+                        <hr> {% for item in unit.parts.all %}
+                        <div class="row align-items-center">
+                            <div class="col"> {{item.name}} </div>
+                            <div class="col text-center py-2">
+                                {% if item.image %}
+                                <img max-width="80px" height="80px" src="{{item.image.url}}" alt="{{item.name}}"> {% else %}
+                                <img max-width="80px" height="80px" src="{% static 'img/no-image.jpg' %}" alt="{{item.name}}"> {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
