@@ -1,3 +1,4 @@
+{% load static %}
 <div class="col-12 mb-3">
     <div dir="rtl" class="card h-350">
         <div class="card-header">
@@ -6,7 +7,7 @@
 
         </div>
         <div class="card-body">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-4 text-center">
                     <button class="border-secondary btn">اسم الفرع</button>
                 </div>
@@ -15,7 +16,7 @@
 
                 </div>
                 <div class="col-5">
-                    <button class="border-secondary btn">الاعطال</button>
+                    <button class="border-secondary btn">الاعطال  {{faults|length}}</button>
 
                 </div>
             </div>
@@ -29,8 +30,10 @@
                         <a href="#" class="list-group-item border-dark list-group-item-action"> {{visit.date_visit|date}}</a>
                     </div>
                     <div class="col-5">
+                        الاعطال
+
                         <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#collapse{{visit.id}}" role="button" aria-expanded="false" aria-controls="collapse{{visit.id}}">
-                            الاعطال
+                            <i class="m-auto bi bi-arrow-down-square"></i>\ اجمالى : <b id="visit_count">{{visit.faults.count}}</b> مشكلة \ 3 تم الاصلاح 1 تم التأجيل لل(موافقة)
                         </a>
                         <div class="collapse" id="collapse{{visit.id}}">
                             <div class="card card-body">

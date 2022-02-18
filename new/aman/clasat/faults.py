@@ -7,15 +7,13 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
 class ImageFault(models.Model):
-    
     fault = models.ForeignKey('aman.Fault',on_delete=models.SET_NULL, blank=True, null=True,verbose_name="العطل")
     image = models.ImageField(upload_to='Faults/')
-    
+    after_fix = models.BooleanField(default=False)
     def __str__(request):
         pass
 
 class Fault(models.Model):
-
     name = models.CharField(verbose_name=("ملخص المشكلة"), max_length=100)
     describe = models.TextField(max_length=3000,blank=True, null=True,verbose_name=('وصف المشكلة'))
     item = models.ForeignKey('aman.Item',on_delete=models.PROTECT,blank=True,null=True)

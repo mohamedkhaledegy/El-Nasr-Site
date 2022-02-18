@@ -41,10 +41,14 @@ def manage(request):
 
     stores = Store.objects.all()
     faults = Fault.objects.all()
-
     visits = Visit.objects.all()
+
+
+
     contex = {'stores':stores,'faults':faults,
-        'visits':visits,
+        'visits':visits,'visits_count':visits.count(),
+        'stores_count':stores.count(),'faults_count':faults.count(),
+        #'count_items':count_items_in_visits,
         }
     return render(request,'profile/manage.html',contex)
 
