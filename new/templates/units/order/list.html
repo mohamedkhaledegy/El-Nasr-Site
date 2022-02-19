@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+<section>
+    <div class="container my-5">
+        <div class="row">
+
+            <div class="col-10  text-end">
+                <h4>طلبات تجديد اثاث الفروع</h4>
+            </div>
+            {% for order in orders %}
+            <div class="col-md-4  text-end">
+                <div class="card my-2">
+                    <div class="card-header">
+
+                        <p>تجديد
+                            <b>{{order.unit}}</b> لفرع <b>{{order.to_store}}</b>
+                        </p>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <p>تم انشاء الطلب بتاريخ : {{order.date_created}}</p>
+                                <p>نوع الطلب : {{order.type_order}}</p>
+                                <p>{{order.date_fixed}}</p>
+                                <p>{{order.from_place}}</p>
+
+                            </div>
+                            <div class="col-4">
+                                <img width="120" height="150" src="{{order.unit.image.url}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

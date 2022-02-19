@@ -9,9 +9,11 @@ from django.utils.text import slugify
 class ImageFault(models.Model):
     fault = models.ForeignKey('aman.Fault',on_delete=models.SET_NULL, blank=True, null=True,verbose_name="العطل")
     image = models.ImageField(upload_to='Faults/')
+    date = models.DateTimeField(auto_now=True)
     after_fix = models.BooleanField(default=False)
     def __str__(request):
         pass
+
 
 class Fault(models.Model):
     name = models.CharField(verbose_name=("ملخص المشكلة"), max_length=100)

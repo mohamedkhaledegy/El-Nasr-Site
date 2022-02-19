@@ -23,3 +23,10 @@ def unit_detail(request,unit_id):
         'unit':unit,
     }
     return render(request,'units/detail.html',context)
+
+def order_unit_list(request):
+    orders = OrderStoreUnit.objects.all()
+    context = {
+        'orders':orders,
+    }
+    return render(request , 'units/order/list.html',context)

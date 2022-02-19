@@ -1,6 +1,8 @@
 from dataclasses import field, fields
 from django import forms
 from django.forms import Form, ModelForm, DateField, widgets
+
+from aman.clasat.faults import ImageFault
 from .models import Fault, Item , Visit
 
 class VisitForm(forms.ModelForm):
@@ -10,6 +12,23 @@ class VisitForm(forms.ModelForm):
         widgets = {
             'date_visit': widgets.DateInput(attrs={'type': 'date'}),
             'item': widgets.SelectMultiple()
+        }
+class VisitFaultFormAdmen(forms.ModelForm):
+    class Meta:
+        model = Visit
+        fields = ['argent',
+        'faults',
+        ]
+        widgets = {
+            'faults': widgets.SelectMultiple(),
+        }
+
+class FaultImageFormAdmen(forms.ModelForm):
+    class Meta:
+        model = ImageFault
+        fields = '__all__'
+        widgets = {
+            'image':widgets.FileInput(attrs={'class':'form-select-multiple'})
         }
 class VisitFormAdmen(forms.ModelForm):
     class Meta:
@@ -53,7 +72,18 @@ class FaultFormAdmen(forms.ModelForm):
         widgets = {
             'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
         }
-
+class FaultVisitFormAdmen(forms.ModelForm):
+    class Meta:
+        model = Fault
+        exclude = ['item',
+        'status','created_by',
+        'created_at','active',
+        'fixed_at','need_to_approve',
+        'approved_to_repair',
+        ]
+        widgets = {
+            'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
+        }
 
 class FaultFormEmergency(forms.ModelForm):
     class Meta:
@@ -77,3 +107,4 @@ class FaultFormStaff(forms.ModelForm):
         'active','active_tosend',
         'need_to_approve','approved_to_repair',
         ]
+

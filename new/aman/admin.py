@@ -59,9 +59,15 @@ admin.site.register(Visit,VisitAdmin)
 
 ## StoreUnit
 class StoreUnitAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name','category','image']
+    list_editable = ['category','image']
 
 admin.site.register(StoreUnit,StoreUnitAdmin)
+class OrderStoreUnitAdmin(admin.ModelAdmin):
+    list_display = ['date_created','date_fixed','from_place','to_store']
+    list_editable = ['date_fixed','from_place','to_store']
+
+admin.site.register(OrderStoreUnit,OrderStoreUnitAdmin)
 
 #admin.site.register(Fault,FaultAdmin)
 admin.site.register(ImageFault)

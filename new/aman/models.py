@@ -1,3 +1,5 @@
+from tkinter import N
+from venv import create
 from django.db import models
 from django.contrib.auth import login ,logout , authenticate
 from django.contrib.auth.models import User
@@ -121,12 +123,27 @@ class StoreUnit(models.Model):
         return self.name
 
 class OrderStoreUnit(models.Model):
-    unit = models.OneToOneField('aman.StoreUnit' ,verbose_name='الفرع',null=True, blank=True, on_delete=models.PROTECT)
+
+    store_unit = models.ForeignKey('aman.StoreUnit',on_delete=models.SET_NULL,blank=True,null=True)
+    #unit = models.OneToOneField('aman.StoreUnit' ,verbose_name='الوحدة',null=True, blank=True, on_delete=models.PROTECT)
     date_created = models.DateField(auto_now=True)
     date_fixed = models.DateField(verbose_name='تاريخ التنفيذ',blank=True, null=True)
+    created_by = models.ForeignKey('aman.Profile',on_delete=models.SET_NULL,blank=True, null=True)
     type_order = models.CharField(verbose_name='نوع الطلب',null=True, blank=True,max_length=150)
     from_place = models.ForeignKey('aman.Store' , related_name='from_store',verbose_name=' الفرع المنقول منه',null=True, blank=True, on_delete=models.SET_NULL)
     to_store = models.ForeignKey('aman.Store' ,verbose_name='الفرع',null=True, blank=True, on_delete=models.SET_NULL)
+    fault = models.OneToOneField('aman.Fault',on_delete=models.PROTECT,blank=True, null=True)
 
     def __str__(self):
-        return self.unit
+        return str(self.store_unit)
+    
+    
+@receiver(post_save , sender=OrderStoreUnit)
+def create_fault_like_order(sender,instance,created , **kwargs):
+    if created:
+        Fault.objects.create(
+            name =  str(instance.type_order) + ' ' + str(instance.store_unit),
+            status=True,
+            belong_to=instance.to_store,
+            created_by = instance.created_by,
+        )

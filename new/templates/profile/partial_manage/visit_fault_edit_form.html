@@ -1,26 +1,47 @@
 {% extends "base.html" %} {% block content %} {% load bootstrap5 %}
 <section class="container my-5">
     <div class="row">
-        <div class="col-4">
-            {% for field in form_visit %}
-            <hr> {% if field %}
-            <br> {% endif %} {% bootstrap_field field class="col-4 form-control "%}{% endfor %}
+        <div class="col-12 card">
+            <h2 class="card-header text-center bg-dark text-white">{{visit}}</h2>
+            <br>
+            <p class="text-end card-header bg-dark text-white">اسم الفرع : {{visit.store}}</p>
+            <p class="text-end card-header">عدد المشاكل والاعطال : {{visit.faults.count}}</p>
+            <div class="row mt-5 bg-white">
+                <div class=" col-8 ">
+                    <div class="row ">
+
+                        {% for field in form_visit %}
+                        <div class="col-12 ">
+                            {% bootstrap_field field %}
+                        </div> {% endfor %}
+                    </div>
+                </div>
+                {% for formaa in form_faults %}
+                <div class="col-4">
+
+                    <h3 class="card-header ">{{formaa.name.value}}</h3>
+                    <div class="col  border-5 border-primary">
+
+                        {% for field in formaa %} {% bootstrap_field field %}
 
 
-        </div>
-        <div class="col-8">
-            <form method="GET">
-                <input type="text" name="fault_nn">
-                <button type="submit"></button>
-            </form>
-            {{visit}} <br> {{fault}}
+
+                        <hr>{% endfor %}
+                    </div>
+                </div>{% endfor %}
+
+            </div>
         </div>
     </div>
-    <div class="row">
-
-        {% for field in form_visit %}
-        <hr> {% if field %}
-        <br> {% endif %} {% bootstrap_field field class="col-4 form-control "%}{% endfor %}
+    <div class="col-8 ">
+        <form method="GET ">
+            <input type="text " name="fault_nn ">
+            <button type="submit "></button>
+        </form>
+        {{visit}} <br> {{fault}}
+    </div>
+    </div>
+    <div class="row ">
     </div>
 </section>
 

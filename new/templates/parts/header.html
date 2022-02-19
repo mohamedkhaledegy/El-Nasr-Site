@@ -32,6 +32,8 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="{% url 'home' %}" class="nav-item nav-link active">الرئيسية</a> {% if user.is_authenticated %}
 
+                <a href="{% url 'manage' %}" class="nav-item nav-link">الادارة</a>
+
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">فروع أمان</a>
                     <div class="text-end dropdown-menu m-0">
@@ -86,8 +88,15 @@
 
                     </div>
                 </div>
-                <a href="{% url 'unit_list' %}" class="nav-item nav-link">اثاث الفرع</a>
 
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">اثاث الفرع</a>
+                    <div class="text-end dropdown-menu m-0">
+                        <a href="{% url 'unit_list' %}" class="dropdown-item">بيانات الاثاث</a>
+                        <a href="{% url 'order_unit_list' %}" class="dropdown-item">طلبات التحديد</a>
+
+                    </div>
+                </div>
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="#" class="btn btn-primary py-2 px-4 ms-3">طلب خدمة طوارئ</a> {% else %}
@@ -101,12 +110,12 @@
                 {% if user.is_authenticated %}
                 <button type="button" class="btn btn-outline-light text-info"><b>{{user.profile.first_name}}</b> مرحبا  </button>
                 <br>
-                <a href="{% url 'profile' %}" class="btn btn-outline-primary">My Profile</a> {% if user.profile.pos_in_store == 'Quality' or user.profile.pos_in_store == 'Manager' or user.profile.pos_in_store == 'ElNasr' %}
+                <a href="{% url 'profile' %}" class="btn btn-outline-primary my-1">My Profile</a> {% if user.profile.pos_in_store == 'Quality' or user.profile.pos_in_store == 'Manager' or user.profile.pos_in_store == 'ElNasr' %}
                 <a class="btn btn-outline-dark" href="/admin/">Admin Page</a> {% endif %}
                 <br><a href="{% url 'logout' %}" class="btn btn-danger my-2">Log Out</a> {% else %} {% if request.path != "/accounts/login/" %}
                 <div class="row">
                     <div class="col-12 text-center">
-                        <a href="{% url 'login' %}" class="btn btn-primary">يرجى تسجيل الدخول  </a>
+                        <a href="{% url 'login' %}" class="btn btn-primary my-2">يرجى تسجيل الدخول  </a>
                     </div>
                 </div>
                 {% endif %}{% endif %}

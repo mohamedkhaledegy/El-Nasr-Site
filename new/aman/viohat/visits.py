@@ -115,11 +115,20 @@ def visit_fault_edit(request,visit_id,fault_id):
     print(visit)
     print(fault)
     form_fault = FaultFormAdmen(instance=fault)
-    form_visit = VisitFormAdmen(instance=visit)
+    form_visit = VisitFaultFormAdmen(instance=visit)
 
     print(request.GET)
     if 'fault_nn' in request.GET:
         print(request.GET['fault_nn'])
+
+    forms_faults = []
+
+    faults = Fault.objects.filter(visit=fault.visit)
+    for form in faults:
+        fault_form = FaultVisitFormAdmen(instance=form)
+        forms_faults.append(fault_form)
+    
+    print(len(forms_faults))
 
     #if request.POST
 
@@ -127,7 +136,7 @@ def visit_fault_edit(request,visit_id,fault_id):
     context = {
         'visit':visit,
         'fault':fault,
-        'form_fault':form_fault ,
+        'form_faults':forms_faults,
         'form_visit':form_visit,
     }
 

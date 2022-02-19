@@ -40,7 +40,7 @@
                         <div class="collapse" id="collapse{{visit.id}}">
                             <div class="card card-body">
                                 {% for form in visit.faults.all %}
-                                <a href="{% url 'visit_fault_edit' visit.id form.id %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'visit_fault_edit' visit.id form.id %}" class="display-b btn btn-primary">Edit</a>
 
                                 <form class="form-control" method="POST">
                                     {% csrf_token %}
