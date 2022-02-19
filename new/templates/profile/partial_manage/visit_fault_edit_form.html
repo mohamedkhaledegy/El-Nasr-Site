@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %} {% load bootstrap5 %}
+<section class="container my-5">
+    <div class="row">
+        <div class="col-4">
+            {% for field in form_visit %}
+            <hr> {% if field %}
+            <br> {% endif %} {% bootstrap_field field class="col-4 form-control "%}{% endfor %}
+
+
+        </div>
+        <div class="col-8">
+            <form method="GET">
+                <input type="text" name="fault_nn">
+                <button type="submit"></button>
+            </form>
+            {{visit}} <br> {{fault}}
+        </div>
+    </div>
+    <div class="row">
+
+        {% for field in form_visit %}
+        <hr> {% if field %}
+        <br> {% endif %} {% bootstrap_field field class="col-4 form-control "%}{% endfor %}
+    </div>
+</section>
+
+{% endblock content %}

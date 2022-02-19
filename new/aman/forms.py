@@ -11,13 +11,16 @@ class VisitForm(forms.ModelForm):
             'date_visit': widgets.DateInput(attrs={'type': 'date'}),
             'item': widgets.SelectMultiple()
         }
-class VisitFormAdmin(forms.ModelForm):
+class VisitFormAdmen(forms.ModelForm):
     class Meta:
         model = Visit
         fields = ['store','short_desc',
         'describe_proplem','argent',
         'faults',
         ]
+        widgets = {
+            'faults': widgets.SelectMultiple(),
+        }
 
 class VisitFormStaff(forms.ModelForm):
     class Meta:

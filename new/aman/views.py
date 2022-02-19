@@ -52,7 +52,7 @@ def manage(request):
         visits = visits_all
         faults = faults_all
         form = FaultFormAdmen()
-    elif profile.pos_in_store == 'Admin':
+    elif profile.pos_in_store == 'ADMIN':
         stores = stores_all.filter(user_admin=request.user)
         visits = visits_all.filter(store__in=stores)
         faults = faults_all.filter(belong_to__in=stores)
@@ -63,21 +63,30 @@ def manage(request):
         faults = faults_all
         form = FaultFormAdmen()
 
-    form = FaultFormAdmen()
+    form_default = FaultFormAdmen()
+
+    form = []
+
 
     if request.POST:
-        form = FaultFormAdmen(request.POST)
-        
-    store_update_form = form
 
+        form = FaultFormAdmen(instance=request.POST)
+        if form.is_valid():
+
+            form.save(commit=True)
+            print('Saved Form')
+        else :
+            form = FaultFilterAdmen()
+        return redirect('/manage/')
 
     contex = {'stores':stores_all,'faults':faults_all,
         'visits':visits_all,'visits_count':visits_all.count(),
         'stores_count':stores_all.count(),'faults_count':faults_all.count(),
-        'store_form_update':store_update_form,
+        'store_form_update':form,
         #'count_items':count_items_in_visits,
         }
     return render(request,'profile/manage.html',contex)
+
 
 
 def store_list(request):

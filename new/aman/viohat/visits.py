@@ -1,6 +1,7 @@
 from asyncio import sslproto
 from datetime import datetime
 from multiprocessing import context
+from wsgiref.util import request_uri
 from aman.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render ,redirect, get_object_or_404 , get_list_or_404 
@@ -106,3 +107,28 @@ def new_visit_emergency(request,slug):
     }
     return render(request,'visit/new_visit_emergency.html',context)
 
+
+def visit_fault_edit(request,visit_id,fault_id):
+    visit = get_object_or_404(Visit,id=visit_id)
+    fault = get_object_or_404(Fault,id=fault_id)
+
+    print(visit)
+    print(fault)
+    form_fault = FaultFormAdmen(instance=fault)
+    form_visit = VisitFormAdmen(instance=visit)
+
+    print(request.GET)
+    if 'fault_nn' in request.GET:
+        print(request.GET['fault_nn'])
+
+    #if request.POST
+
+    
+    context = {
+        'visit':visit,
+        'fault':fault,
+        'form_fault':form_fault ,
+        'form_visit':form_visit,
+    }
+
+    return render(request,'profile/partial_manage/visit_fault_edit_form.html',context)

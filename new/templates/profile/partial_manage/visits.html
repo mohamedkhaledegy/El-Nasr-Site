@@ -39,7 +39,18 @@
                         </a>
                         <div class="collapse" id="collapse{{visit.id}}">
                             <div class="card card-body">
-                                {% for item in visit.faults.all %}
+                                {% for form in visit.faults.all %}
+                                <a href="{% url 'visit_fault_edit' visit.id form.id %}" class="btn btn-primary">Edit</a>
+
+                                <form class="form-control" method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" name="name" id="name" value="{{form.name}}" class="form-control">
+                                    <input type="text" name="created_by" id="created_by" value="{{form.created_by}}">
+                                    <button class="btn btn-outline-success" type="submit">
+                                        Save
+                                    </button>
+                                </form>
+                                {% endfor %} {% for item in visit.faults.all %}
                                 <h4 class="badge bg-info text-black">{{item}}</h4> {% endfor %}
 
                                 <!-- Modal -->
@@ -84,7 +95,6 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
-                                                <button type="button" class="btn btn-primary">حفظ التغييرات</button>
                                             </div>
                                         </div>
                                     </div>
