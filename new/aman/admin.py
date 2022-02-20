@@ -64,7 +64,7 @@ class StoreUnitAdmin(admin.ModelAdmin):
 
 admin.site.register(StoreUnit,StoreUnitAdmin)
 class OrderStoreUnitAdmin(admin.ModelAdmin):
-    list_display = ['date_created','date_fixed','from_place','to_store']
+    list_display = ['store_unit','date_created','date_fixed','from_place','to_store']
     list_editable = ['date_fixed','from_place','to_store']
 
 admin.site.register(OrderStoreUnit,OrderStoreUnitAdmin)

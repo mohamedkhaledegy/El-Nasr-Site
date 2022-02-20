@@ -49,6 +49,7 @@ def create_user_profile(sender,instance,created , **kwargs):
         Profile.objects.create(
             user = instance
         )
+
 class Tags(models.Model):
     name_tag = models.CharField(max_length=50,unique=True)
     def __str__(self):
@@ -104,6 +105,7 @@ class Item(models.Model):
         ('معدن','معدن'),
         ('اكسسوارات اثاث', 'اكسسوارات اثاث'),
     )
+
     name = models.CharField(verbose_name=("اسم القطعة-الخدمة"), max_length=100)
     describe_item = models.TextField(verbose_name=("وصف القطعة"),max_length=4000 ,blank=True, null=True)
     type_parent = models.CharField(verbose_name=("النوع"),max_length=100,choices=item_types , blank=True, null=True)
@@ -123,7 +125,6 @@ class StoreUnit(models.Model):
         return self.name
 
 class OrderStoreUnit(models.Model):
-
     store_unit = models.ForeignKey('aman.StoreUnit',on_delete=models.SET_NULL,blank=True,null=True)
     #unit = models.OneToOneField('aman.StoreUnit' ,verbose_name='الوحدة',null=True, blank=True, on_delete=models.PROTECT)
     date_created = models.DateField(auto_now=True)
@@ -133,10 +134,16 @@ class OrderStoreUnit(models.Model):
     from_place = models.ForeignKey('aman.Store' , related_name='from_store',verbose_name=' الفرع المنقول منه',null=True, blank=True, on_delete=models.SET_NULL)
     to_store = models.ForeignKey('aman.Store' ,verbose_name='الفرع',null=True, blank=True, on_delete=models.SET_NULL)
     fault = models.OneToOneField('aman.Fault',on_delete=models.PROTECT,blank=True, null=True)
+    items = models.ManyToManyField('aman.Item',blank=True,verbose_name='اصلاحات بالوحدة')
+
 
     def __str__(self):
         return str(self.store_unit)
-    
+
+    class Meta:
+        managed = True
+        verbose_name = 'Order Units'
+        verbose_name_plural = 'Orders Units'
     
 @receiver(post_save , sender=OrderStoreUnit)
 def create_fault_like_order(sender,instance,created , **kwargs):
@@ -147,3 +154,23 @@ def create_fault_like_order(sender,instance,created , **kwargs):
             belong_to=instance.to_store,
             created_by = instance.created_by,
         )
+
+
+### عمل زيارة للعطل الجديد 
+@receiver(post_save, sender=Fault)
+def create_visit_month_if_not(sender,instance,created,**kwargs):
+    this_month = datetime.now().month
+    ## لو العطل اتركيت
+    if created:
+        ## لو تاريخ الزيارة مش فاضى
+        if instance.fixed_at != None:
+            ## عدد الزيارات للفرع كفلتر اول 
+            # وفى الشهر كفلتر تانى 
+            # وفى الشهر بيكون حسب نفس تاريخ يوم الاصلاح
+            visits = Visit.objects.filter(store=instance.belong_to,date_created__month=this_month).count()
+            if int(visits) < 1:
+                Visit.objects.create(
+                store = instance.belong_to ,
+                type_of = 'شهرية' ,
+                send_by = instance.created_by ,
+            )

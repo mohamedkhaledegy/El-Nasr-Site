@@ -121,22 +121,27 @@ def visit_fault_edit(request,visit_id,fault_id):
     if 'fault_nn' in request.GET:
         print(request.GET['fault_nn'])
 
-    forms_faults = []
 
-    faults = Fault.objects.filter(visit=fault.visit)
-    for form in faults:
-        fault_form = FaultVisitFormAdmen(instance=form)
-        forms_faults.append(fault_form)
-    
-    print(len(forms_faults))
+    ### دى عشان اضيف كذا فورم وكل فورم وارثة من الاوبجكت
+    # forms_faults = []
+    # faults = Fault.objects.filter(visit=fault.visit)
+    # for form in faults:
+    #     fault_form = FaultVisitFormAdmen(instance=form)
+    #     forms_faults.append(fault_form)
+    # print(len(forms_faults))
 
-    #if request.POST
+    if request.POST:
+        pass
+        form_fault = FaultFormAdmen(request.POST)
+        if form_fault.is_valid():
+            form_fault.save(commit=False)
+            if form_fault.created_by != None:
+                print('Created By T')
 
-    
     context = {
         'visit':visit,
         'fault':fault,
-        'form_faults':forms_faults,
+        'form_faults':form_fault,
         'form_visit':form_visit,
     }
 

@@ -2,19 +2,16 @@
 <section>
     <div class="container my-5">
         <div class="row">
-
             <div class="col-10  text-end">
                 <h4>طلبات تجديد اثاث الفروع</h4>
             </div>
-            {% for order in orders %}
+            <br> {% for order in orders %}
             <div class="col-md-4  text-end">
                 <div class="card my-2">
                     <div class="card-header">
-
                         <p>تجديد
-                            <b>{{order.unit}}</b> لفرع <b>{{order.to_store}}</b>
+                            <b>{{order.store_unit}}</b> لفرع <b>{{order.to_store}}</b>
                         </p>
-
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -22,8 +19,11 @@
                                 <p>تم انشاء الطلب بتاريخ : {{order.date_created}}</p>
                                 <p>نوع الطلب : {{order.type_order}}</p>
                                 <p>{{order.date_fixed}}</p>
-                                <p>{{order.from_place}}</p>
-
+                                {% if order.form_place %}
+                                <p> تم نقل ال {{order.store_unit}} من فرع - {{order.from_place}}</p>
+                                {% else %}
+                                <p>التجديد داخل الفرع</p>
+                                {% endif %}
                             </div>
                             <div class="col-4">
                                 <img width="120" height="150" src="{{order.unit.image.url}}" alt="">

@@ -32,7 +32,6 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="{% url 'home' %}" class="nav-item nav-link active">الرئيسية</a> {% if user.is_authenticated %}
 
-                <a href="{% url 'manage' %}" class="nav-item nav-link">الادارة</a>
 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">فروع أمان</a>
@@ -67,8 +66,8 @@
                 <div class=" nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">خدمات</a>
                     <div class="text-end dropdown-menu m-0">
-                        <a href="{% url 'new_visit' %}" class="dropdown-item">طلب صيانة اضافية</a>
-                        <a href="{% url 'new_visit' %}" class="dropdown-item">طلب صيانة طارئة</a>
+                        <a href="{% url 'fault_new' %}" class="dropdown-item">ابلاغ عن عطل</a>
+                        <a href="{% url 'fault_list' %}" class="dropdown-item">قائمة الأعطال</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -88,7 +87,6 @@
 
                     </div>
                 </div>
-
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">اثاث الفرع</a>
                     <div class="text-end dropdown-menu m-0">
@@ -111,7 +109,8 @@
                 <button type="button" class="btn btn-outline-light text-info"><b>{{user.profile.first_name}}</b> مرحبا  </button>
                 <br>
                 <a href="{% url 'profile' %}" class="btn btn-outline-primary my-1">My Profile</a> {% if user.profile.pos_in_store == 'Quality' or user.profile.pos_in_store == 'Manager' or user.profile.pos_in_store == 'ElNasr' %}
-                <a class="btn btn-outline-dark" href="/admin/">Admin Page</a> {% endif %}
+                <a class="btn btn-outline-dark" href="/admin/">ادارة البيانات</a>
+                <a href="{% url 'manage' %}" class="nav-item nav-link">لوحة التحكم</a>{% endif %}
                 <br><a href="{% url 'logout' %}" class="btn btn-danger my-2">Log Out</a> {% else %} {% if request.path != "/accounts/login/" %}
                 <div class="row">
                     <div class="col-12 text-center">

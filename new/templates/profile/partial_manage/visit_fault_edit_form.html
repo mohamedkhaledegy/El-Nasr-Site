@@ -1,35 +1,23 @@
 {% extends "base.html" %} {% block content %} {% load bootstrap5 %}
 <section class="container my-5">
     <div class="row">
-        <div class="col-12 card">
+        <div dir="rtl" class="col-12 card">
             <h2 class="card-header text-center bg-dark text-white">{{visit}}</h2>
             <br>
             <p class="text-end card-header bg-dark text-white">اسم الفرع : {{visit.store}}</p>
             <p class="text-end card-header">عدد المشاكل والاعطال : {{visit.faults.count}}</p>
-            <div class="row mt-5 bg-white">
-                <div class=" col-8 ">
-                    <div class="row ">
-
-                        {% for field in form_visit %}
-                        <div class="col-12 ">
+            <div class="row mt-5">
+                <div class=" col-12 ">
+                    <div class="row">
+                        <div class="col-md-4" style="background-color: aliceblue;">
+                            <h4>زيارة - {{visit.type_of}} - لفرع - {{visit.store}} </h4>
+                            {% for field in form_visit %} {% bootstrap_field field %} {% endfor %}
+                        </div>{% for field in form_faults %}
+                        <div class="col-md-4 ">
                             {% bootstrap_field field %}
                         </div> {% endfor %}
                     </div>
                 </div>
-                {% for formaa in form_faults %}
-                <div class="col-4">
-
-                    <h3 class="card-header ">{{formaa.name.value}}</h3>
-                    <div class="col  border-5 border-primary">
-
-                        {% for field in formaa %} {% bootstrap_field field %}
-
-
-
-                        <hr>{% endfor %}
-                    </div>
-                </div>{% endfor %}
-
             </div>
         </div>
     </div>

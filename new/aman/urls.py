@@ -1,15 +1,27 @@
 from django.urls import path 
 from . import views
 
+
+
 urlpatterns = [
     path('', views.index , name='home' ),
+    ## الادارة ####### by pos in store
     path('manage/',views.manage,name='manage'),
+    #### عرض للفروع والاعطال والزيارات حسب الاختصاص
+    
     path('stores/', views.store_list , name='stores' ),
+    #### عرض الفروع كاملة بتفاصيل عنها وتفاصيل عن الادمين  ###### مفتوح فقط ل manager-quality-elnasr
+    path('stores/list/', views.store_list_details , name='stores' ),
+    #### عرض الفروع بكل تفاصيلها من بيانات واعطال وزيارات وطلبات
     path('stores/<slug:slug>/', views.store_detail , name='store_details' ),
-    path('faults/list', views.fault_list , name='fault_list' ),
-    path('faults/<int:id_fault>', views.fault_detail , name='fault_list' ),
+    #### عرض الفرع بتفاصيله وبياناته واخر زيارات ليه واعطال لسة ما اتحلتش
 
-    path('faults/new', views.fault_new , name='fault_new' ),
+    path('faults/list', views.fault_list , name='fault_list' ),
+    #### الاعطال كاملة 
+
+
+    path('faults/<int:id_fault>', views.fault_detail , name='fault_list' ),
+    path('faults/new', views.fault_new_admen , name='fault_new' ),
     path('faults/edit', views.fault_edit , name='fault_edit' ),
 
     path('visit/new/', views.new_visit , name='new_visit' ),

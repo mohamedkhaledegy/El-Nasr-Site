@@ -33,6 +33,6 @@ class Visit(models.Model):
         super(Visit,self).save(*args, **kwargs)
     
     def __str__(self):
-        return "زيارة  - %s -  %s - شهر %s" % (self.type_of, self.store ,self.date_visit.month)
+        return "زيارة  - %s -  %s - شهر %s" % (self.type_of, self.store ,self.date_visit)
     # def get_visits_this_month(self,a):
     #     return "%s" self. = [x for x in Visit.objects.filter(date_visit__month=datetime.now.month)]

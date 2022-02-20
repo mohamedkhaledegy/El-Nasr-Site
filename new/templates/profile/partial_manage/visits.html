@@ -38,68 +38,64 @@
                             <i class="m-auto bi bi-arrow-down-square"></i>\ اجمالى : <b id="visit_count">{{visit.faults.count}}</b> مشكلة \ 3 تم الاصلاح 1 تم التأجيل لل(موافقة)
                         </a>
                         <div class="collapse" id="collapse{{visit.id}}">
-                            <div class="card card-body">
-                                {% for form in visit.faults.all %}
-                                <a href="{% url 'visit_fault_edit' visit.id form.id %}" class="display-b btn btn-primary">Edit</a>
+                            <div class="card">
+                                <div class="card-header">
 
-                                <form class="form-control" method="POST">
-                                    {% csrf_token %}
-                                    <input type="text" name="name" id="name" value="{{form.name}}" class="form-control">
-                                    <input type="text" name="created_by" id="created_by" value="{{form.created_by}}">
-                                    <button class="btn btn-outline-success" type="submit">
-                                        Save
-                                    </button>
-                                </form>
-                                {% endfor %} {% for item in visit.faults.all %}
-                                <h4 class="badge bg-info text-black">{{item}}</h4> {% endfor %}
+                                </div>
+                                <div class="card-body">
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">تفاصيل العطل</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                                            </div>
-                                            <div class="modal-body">
-                                                <form class="form-horizontal" method="post" novalidate>{% csrf_token %}
-                                                    <fieldset>
-                                                        <legend>{{ title }}</legend>
-                                                        {% for field in store_form_update %} {% if field.errors %}
-                                                        <div class="control-group error">
-                                                            <label class="control-label">{{ field.label }}</label>
-                                                            <div class="controls">{{ field }}
-                                                                <span class="help-inline">
-                                                                    {% for error in  field.errors %}{{ error }}{% endfor %}
-                                                                </span>
-                                                            </div>
+                                    {% for faulta in visit.faults.all %}
+                                    <form class="form-control" method="get">
+                                        <input type="text" name="name" id="name" disabled value="{{faulta.name}}" class="form-control">
+                                        <input type="text" name="created_by" disabled id="created_by" value="By-{{faulta.created_by}}">
+                                    </form>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal{{faulta.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">تفاصيل العطل</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="form">
+                                                        <input class="form-control" type="text" disabled name="prolpem_name" value="{{faulta.name}}">
+                                                        <input type="text" name="proplem_describe" class="form-control" disabled value="{{faulta.describe}}"> {% if faulta.status %}
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" disabled id="flexCheckDefault" checked>
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                              تم الاصلاح
+                                                            </label>
                                                         </div>
                                                         {% else %}
-                                                        <div class="control-group">
-                                                            <label class="control-label">{{ field.label }}</label>
-                                                            <div class="controls">{{ field }} {% if field.help_text %}
-                                                                <p class="help-inline"><small>{{ field.help_text }}</small></p>
-                                                                {% endif %}
-                                                            </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" disabled id="flexCheckDefault">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                              لم يتم الاصلاح
+                                                            </label>
                                                         </div>
-                                                        {% endif %} {% endfor %}
-                                                    </fieldset>
-                                                    <div class="form-actions">
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-body">
-                                                {% for field in store_form_update %} {% bootstrap_field field value=item %} {% endfor %}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                                                        {% endif %}
+                                                        <div class="input-group mb-3">
+                                                            {% if faulta.created_by %}
+                                                            <input type="text" class="form-control" placeholder="{{faulta.created_by}}" disabled aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                            <span class="input-group-text" id="basic-addon2">ابلاغ من @ </span> {% else %}
+                                                            <span class="input-group-text" name="text">لا يوجد معلومات عن المبلغ</span> {% endif %}
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <button type="button" class="btn-link border-0 bi bi-info-square" data-bs-toggle="modal" data-bs-target="#exampleModal{{faulta.id}}">تفاصيل العطل</button>
+                                    <a href="{% url 'visit_fault_edit' visit.id faulta.id %}" class="bi bi-archive">Edit</a>
+                                    <hr> {% endfor %}
+
                                 </div>
-                                <button type="button" class="btn btn-outline-light add-link-hover text-black-50" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">تعديل العطل</button>
+
+                                <!-- Modal -->
                             </div>
                         </div>
 

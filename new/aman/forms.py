@@ -3,8 +3,20 @@ from django import forms
 from django.forms import Form, ModelForm, DateField, widgets
 
 from aman.clasat.faults import ImageFault
-from .models import Fault, Item , Visit
+from .models import Item , Visit
 
+
+###********************************************************###
+from aman.format.faults_forms import *
+###********************************************************###
+
+
+###********************************************************###
+##############################################################
+
+###### Visit Form Start #####
+
+#### #### #### #### #### ####
 class VisitForm(forms.ModelForm):
     class Meta:
         model = Visit
@@ -23,13 +35,7 @@ class VisitFaultFormAdmen(forms.ModelForm):
             'faults': widgets.SelectMultiple(),
         }
 
-class FaultImageFormAdmen(forms.ModelForm):
-    class Meta:
-        model = ImageFault
-        fields = '__all__'
-        widgets = {
-            'image':widgets.FileInput(attrs={'class':'form-select-multiple'})
-        }
+
 class VisitFormAdmen(forms.ModelForm):
     class Meta:
         model = Visit
@@ -46,6 +52,30 @@ class VisitFormStaff(forms.ModelForm):
         model = Visit
         exclude = ['done']
 
+#### #### #### #### #### ####
+
+###### Visit Form End #####
+
+##############################################################
+
+##############################################################
+
+###### Fault Form Start #####
+
+#### #### #### #### #### ####
+
+#### #### #### #### #### ####
+
+###### Fault Form End #####
+
+##############################################################
+
+##############################################################
+
+###### Item Form Start #####
+
+#### #### #### #### #### ####
+
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
@@ -55,56 +85,11 @@ class ItemFormAdmen(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['name','image']
-class FaultForm(forms.ModelForm):
-    class Meta:
-        model = Fault
-        fields = '__all__'
 
-class FaultFormAdmen(forms.ModelForm):
-    class Meta:
-        model = Fault
-        exclude = ['item',
-        'status','created_by',
-        'created_at','active',
-        'fixed_at','need_to_approve',
-        'approved_to_repair',
-        ]
-        widgets = {
-            'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
-        }
-class FaultVisitFormAdmen(forms.ModelForm):
-    class Meta:
-        model = Fault
-        exclude = ['item',
-        'status','created_by',
-        'created_at','active',
-        'fixed_at','need_to_approve',
-        'approved_to_repair',
-        ]
-        widgets = {
-            'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
-        }
+#### #### #### #### #### ####
 
-class FaultFormEmergency(forms.ModelForm):
-    class Meta:
-        model = Fault
-        exclude = [
-        'status','created_by',
-        'created_at','active',
-        'fixed_at','need_to_approve',
-        'approved_to_repair','belong_to','visit',
-        ]
-        widgets = {
-            'item': widgets.SelectMultiple(attrs={'class':'form-select-multiple'}),
-        }
+###### Item Form End #####
 
-class FaultFormStaff(forms.ModelForm):
-    class Meta:
-        model = Fault
-        exclude = ['item',
-        'status','created_by',
-        'created_at','fixed_at',
-        'active','active_tosend',
-        'need_to_approve','approved_to_repair',
-        ]
 
+##############################################################
+###********************************************************###

@@ -2,20 +2,28 @@
 <section>
     <div class="container">
         <div class="row justify-content-between ">
-            <div class="col-4">
-                <div class="row">
-                    {% for field in form_new_fault %}
-                    <div class="col-4">
+            <div dir="rtl" class=" card col-12">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2 class="card-header text-center">ابلاغ بمشكلة</h2>
 
-                        {% bootstrap_field field %}
+                    <div class="row bg-light">
+                        {% for field in form_new_fault %}
+                        <div class="col-md-3">
+                            {% bootstrap_field field %}
 
+                        </div>
+                        {% endfor %}
+                        <div class="col-md-6">
+                            <label for="images" class="col-form-label">صور للعطل</label>
+                            <input class="form-control-file" type="file" multiple name="images">
+                        </div>
                     </div>
-                    {% endfor %}
-                </div>
-                <hr> {% buttons %}
-                <button type="submit" class="content-center btn btn-info">
-                    Filter
+                    <hr> {% buttons %}
+                    <button type="submit" class="content-center btn btn-info">
+                    Send
                 </button> {% endbuttons %}
+                </form>
             </div>
         </div>
     </div>

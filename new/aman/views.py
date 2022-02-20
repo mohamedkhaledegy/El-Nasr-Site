@@ -10,7 +10,7 @@ from aman.filters import *
 
 from aman.viohat.units import *
 from aman.viohat.elprofile import profile
-from aman.viohat.faults import fault_list ,fault_detail , fault_edit , fault_new 
+from aman.viohat.faults import * 
 from aman.viohat.visits import *
 # Create your views here.
 
@@ -111,6 +111,9 @@ def store_list(request):
         'visits':visit_list,
             }
     return render(request,'store_list.html',context)
+
+def store_list_details(request):
+    pass
 
 def store_detail(request , slug):
     if request.user.is_authenticated:
