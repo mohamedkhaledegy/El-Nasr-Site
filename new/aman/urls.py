@@ -11,7 +11,7 @@ urlpatterns = [
     
     path('stores/', views.store_list , name='stores' ),
     #### عرض الفروع كاملة بتفاصيل عنها وتفاصيل عن الادمين  ###### مفتوح فقط ل manager-quality-elnasr
-    path('stores/list/', views.store_list_details , name='stores' ),
+    path('stores/list/', views.store_list_details , name='stores_visits_faults' ),
     #### عرض الفروع بكل تفاصيلها من بيانات واعطال وزيارات وطلبات
     path('stores/<slug:slug>/', views.store_detail , name='store_details' ),
     #### عرض الفرع بتفاصيله وبياناته واخر زيارات ليه واعطال لسة ما اتحلتش

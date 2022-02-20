@@ -9,11 +9,10 @@
                     <form class="form-group" method="GET" novalidate>
                         {% for field in stores_filter.form %}
                         <small>
-
                         </small> {% bootstrap_field field show_label=False %} {% endfor %}
                         <hr> {% buttons %}
-                        <button type="submit" class="content-center btn btn-info">
-                            Filter
+                        <button type="submit" class="btn btn-outline-info">
+                            تصفية
                         </button> {% endbuttons %}
                     </form>
                 </div>
@@ -42,8 +41,10 @@
                                 </div>
                                 <div class="card-body">
                                     {{store_card.address_store}}
-                                    <a href="whatsapp://send?text=فرع {{store_card.name}} العنوان :   {{store_card.address_store}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i> location </a>
-                                    <a href="https://api.whatsapp.com/send?text=فرع {{store_card.name}} العنوان :   {{store_card.address_store}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i>العنوان</a>
+                                    <a href="https://api.whatsapp.com/send?text=فرع {{store_card.name}} العنوان :   {{store_card.address_store}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i> العنوان </a>
+                                    <hr>{% if store_card.location_store %}
+                                    <a href="https://api.whatsapp.com/send?text=فرع {{store_card.name}} اللوكيشن : {{store_card.location_store}}" class="badge-outline-success mx-1"><i class="bi bi-whatsapp"></i> ارسال اللوكيشن</a> <br>
+                                    <iframe style="border: 0px solid #5bc0de;" width="100%" height="200px" src="{{store_card.location_store}}"></iframe> {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -55,7 +56,6 @@
                                 <div class="card-body ">
                                     <p><i class="fas fa-phone "></i>رقم الموبايل : {{store_card.user_admin.profile.phone_number}}</p>
                                     <a href="https://api.whatsapp.com/send?text=أ - {{store_card.user_admin.profile.full_name}} رقم التليفون :   {{store_card.user_admin.profile.phone_number}} رقم اخر {{store_card.user_admin.profile.phone_number2}}" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i>رقم الادمين</a>
-
                                 </div>
                             </div>
                         </div>
@@ -63,10 +63,10 @@
                             <div class="card ">
                                 <div class="card-header ">
                                     الزيارات :
-                                    <a href="/{{store_card.slug}}/visit/list ">زيارات الفرع </a>
                                 </div>
                                 <div class="card-body ">
 
+                                    <a href="/{{store_card.slug}}/visit/list ">زيارات الفرع </a>
                                 </div>
                             </div>
                         </div>

@@ -108,12 +108,12 @@ def store_list(request):
         'storess':stores,
         'count_stores':store_count,
         'stores_filter':store_filter,
-        'visits':visit_list,
+        'visitsss':visit_list,
             }
     return render(request,'store_list.html',context)
 
 def store_list_details(request):
-    pass
+    return render(request,'list_stores_visits_faults.html',context)
 
 def store_detail(request , slug):
     if request.user.is_authenticated:

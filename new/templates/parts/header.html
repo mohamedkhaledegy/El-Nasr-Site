@@ -30,9 +30,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="{% url 'home' %}" class="nav-item nav-link active">الرئيسية</a> {% if user.is_authenticated %}
-
-
+                <a href="{% url 'home' %}" class="nav-item nav-link active">الرئيسية</a> {% if user.is_authenticated %}{% if user.profile.pos_in_store == 'Admin' %}
+                <nav style="background-color: transparent;" class="fixed-top text-start link-danger bg-dark mt-4 py-2 mx-auto">
+                    Hello Admin
+                </nav>
+                <a href="{% url 'stores' %}" class="nav-item nav-link ">
+                            الفروع 
+                </a> {% elif user.profile.pos_in_store != 'Admin' %}
+                <nav style="background-color: transparent;" class="fixed-top text-start link-danger bg-light-50 d-grid mt-4 py-2 mx-auto">
+                    Hello {{user.profile.pos_in_store}}
+                </nav>
+                {% endif %}
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">فروع أمان</a>
                     <div class="text-end dropdown-menu m-0">
